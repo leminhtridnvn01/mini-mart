@@ -6,9 +6,10 @@ import { SharedModule } from '../shared/shared.module';
 import * as Containers from './containers';
 import * as Component from './components';
 import * as Services from './services';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [Containers.ALL, Component.ALL],
-  imports: [ProductCategoryRoutingModule, SharedModule],
+  imports: [CommonModule, ProductCategoryRoutingModule, SharedModule],
   providers: [Services.ALL],
 })
 export class ProductCategoryModule {}

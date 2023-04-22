@@ -16,8 +16,8 @@ export class ProductCategoryService {
   ): Observable<DataSourceResult<GetAllCategoriesResponse>> {
     const url = `${this.baseUrl}`;
     let params = new HttpParams()
-      .set('skip', request.skip?.toString())
-      .set('take', request.take?.toString());
+      .set('pageNo', request.pageNo?.toString())
+      .set('pageSize', request.pageSize?.toString());
     return this.http.get<DataSourceResult<GetAllCategoriesResponse>>(url, {
       params,
     });

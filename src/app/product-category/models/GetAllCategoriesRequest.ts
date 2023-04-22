@@ -1,4 +1,2 @@
-export interface GetAllCategoriesRequest {
-  skip?: number;
-  take?: number;
-}
+import { IPagingRequest } from './../../shared/models/paging-request.model';
+export interface GetAllCategoriesRequest extends IPagingRequest {}
