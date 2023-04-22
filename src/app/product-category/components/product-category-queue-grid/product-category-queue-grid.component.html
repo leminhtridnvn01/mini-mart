@@ -1,1 +1,24 @@
-<p>product-category-queue-grid works!</p>
+<div class="product-category-queue-grid-container" fxLayout="column">
+  <div class="product-category-title" fxFlex="20">
+    <p class="text-left font-weight-bold">Product Categories</p>
+  </div>
+  <div class="product-category-content" fxFlex="80" fxLayoutGap="5px">
+    <div
+      class="product-item-container"
+      fxLayout="row"
+      *ngFor="let item of categories"
+      [fxFlex]="20"
+    >
+      <div class="product-item py-2">
+        <div fxLayout="column" style="height: 100%">
+          <div class="product-img">
+            <img [src]="item.img" alt="" class="rounded mx-auto py-1 d-block" />
+          </div>
+          <div class="product-description py-1 mx-auto" fxLayout="20">
+            <span class="product-type"> {{ item.name }} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
