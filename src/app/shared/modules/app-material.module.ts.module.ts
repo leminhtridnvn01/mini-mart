@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 //Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,12 +33,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRippleModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     CdkTableModule,
     MatInputModule,
     MatAutocompleteModule,
@@ -72,7 +71,7 @@ import { MatRippleModule } from '@angular/material/core';
     MatRippleModule,
   ],
   exports: [
-    BrowserAnimationsModule,
+    CommonModule,
     CdkTableModule,
     MatInputModule,
     MatAutocompleteModule,
