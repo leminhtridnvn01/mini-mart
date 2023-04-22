@@ -1,6 +1,10 @@
 export interface DataSourceResult<T> {
+  skip?: number;
+  totalPages?: number;
+  pageNo?: number;
+  pageSize?: number;
+  totalRecords?: number;
   data: Array<T>;
-  total: number;
-  pageNo: number;
-  pageSize: number;
+  isSuccess?: boolean;
+  message?: string;
 }

@@ -35,3 +35,10 @@ img {
 }
 
 
+.carousel-inner{
+  margin: 0 !important;
+}
+
+.carousel-item {
+  padding: 20px;
+}
