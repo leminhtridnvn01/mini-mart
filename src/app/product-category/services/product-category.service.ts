@@ -12,14 +12,23 @@ export class ProductCategoryService {
   constructor(private http: HttpClient) {}
 
   getAllCategories(
-    request: GetAllCategoriesRequest
+    request?: GetAllCategoriesRequest
   ): Observable<DataSourceResult<GetAllCategoriesResponse>> {
     const url = `${this.baseUrl}`;
-    let params = new HttpParams()
-      .set('pageNo', request.pageNo?.toString())
-      .set('pageSize', request.pageSize?.toString());
+    let params = this.getParams(request);
     return this.http.get<DataSourceResult<GetAllCategoriesResponse>>(url, {
       params,
     });
+  }
+
+  private getParams(request?: GetAllCategoriesRequest): HttpParams {
+    let params = new HttpParams();
+    if (request?.pageNo) {
+      params.set('pageNo', request?.pageNo?.toString());
+    }
+    if (request?.pageSize) {
+      params.set('pageSize', request?.pageSize?.toString());
+    }
+    return params;
   }
 }

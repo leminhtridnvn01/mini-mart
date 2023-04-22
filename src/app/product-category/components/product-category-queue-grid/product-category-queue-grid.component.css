@@ -42,3 +42,7 @@ img {
 .carousel-item {
   padding: 20px;
 }
+
+.carousel-item.active {
+  display: flex;
+}
