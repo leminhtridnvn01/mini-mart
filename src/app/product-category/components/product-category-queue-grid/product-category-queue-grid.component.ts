@@ -22,8 +22,7 @@ export class ProductCategoryQueueGridComponent implements OnInit {
   currentPage = 1;
   page: [][];
   pages: any[][];
-  @ViewChildren('item') items: QueryList<ElementRef>;
-  @ViewChildren('indicator') indicators: QueryList<ElementRef>;
+
   constructor(private productCategoryService: ProductCategoryService) {}
   ngOnInit(): void {
     this.InitData();
@@ -43,23 +42,6 @@ export class ProductCategoryQueueGridComponent implements OnInit {
       }
     });
   }
-  onNextBtnClick(): void {
-    if (this.currentPage == this.totalPage) {
-      this.currentPage = 1;
-    } else {
-      this.currentPage += 1;
-    }
-    // this.refreshCategory();
-  }
-
-  onPrevBtnClick(): void {
-    if (this.currentPage == 1 || this.totalPage == 1) {
-      this.currentPage = this.totalPage;
-    } else {
-      this.currentPage -= 1;
-    }
-    // this.refreshCategory();
-  }
 
   private transformArray(inputArray: any[]): any[][] {
     const outputArray: any[][] = [];
@@ -71,7 +53,6 @@ export class ProductCategoryQueueGridComponent implements OnInit {
       outputArray.push(chunk);
     }
 
-    // Chia nhỏ mảng cuối cùng nếu số phần tử không chia hết cho 5
     const lastChunkIndex = outputArray.length - 1;
     const lastChunkSize = outputArray[lastChunkIndex].length;
     if (lastChunkSize < chunkSize && lastChunkIndex < inputSize - 1) {
