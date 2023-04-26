@@ -1,0 +1,47 @@
+<div class="product-queue-grid-container">
+  <div class="product-queue-title">
+    <p class="text-left font-weight-bold" style="font-size: 24px">Products</p>
+  </div>
+  <div class="product-queue-content p-3 row row-cols-5 gy-5">
+    <div class="product-item-container" *ngFor="let product of products">
+      <div class="card" style="width: 16rem; height: 22rem" fxLayout="column">
+        <a href="" fxFlex="50" fxLayout="column">
+          <img
+            [src]="product.img"
+            class="card-img-top"
+            alt="..."
+            style="object-fit: contain"
+            fxFlex="100"
+          />
+        </a>
+
+        <div class="card-body" fxFlex="50" fxLayout="column">
+          <p
+            class="card-text text-truncate"
+            style="font-size: 16px"
+            fxFlex="30"
+          >
+            {{ product.description ?? "Unknown" }}
+          </p>
+          <p class="card-text" style="font-size: 12px" fxFlex="30">
+            Unit:
+            {{ addCommas(product.lK_ProductUnit) }}
+          </p>
+          <p class="card-text" style="font-size: 12px; color: red" fxFlex="30">
+            Price:
+            {{ addCommas(product.price) }}
+          </p>
+          <a
+            class="btn btn-primary"
+            fxFlex="35"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+          >
+            <mat-icon>shopping_cart</mat-icon>
+            <span> Add to Basket </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

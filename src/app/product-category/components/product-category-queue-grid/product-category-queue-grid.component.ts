@@ -1,14 +1,18 @@
-import { GetAllCategoriesRequest } from '../../models/GetAllCategoriesRequest';
-import { GetAllCategoriesResponse } from '../../models/GetAllCategoriesResponse';
-import { ProductCategoryService } from './../../services/product-category.service';
+import { GetAllCategoriesRequest } from '../../models/GetAllCategories';
+import { GetCategoryResponse } from '../../models/GetAllCategories';
+import { ProductCategoryService } from '../../services/http/product-category.service';
 import {
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProductCategoryCommunicationService } from '../../services/logic/product-category-communicate.service';
+import { GridAction } from 'src/app/shared/enums/grid-action';
 
 @Component({
   selector: 'app-product-category-queue-grid',
@@ -16,14 +20,20 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./product-category-queue-grid.component.css'],
 })
 export class ProductCategoryQueueGridComponent implements OnInit {
-  categories: GetAllCategoriesResponse[];
+  categories: GetCategoryResponse[];
   totalPage = 1;
   pageRange: any[] = [3];
   currentPage = 1;
   page: [][];
   pages: any[][];
 
-  constructor(private productCategoryService: ProductCategoryService) {}
+  @Output('selectedCategory') selectedCategoryEvent =
+    new EventEmitter<number>();
+
+  constructor(
+    private productCategoryService: ProductCategoryService,
+    private communicator: ProductCategoryCommunicationService
+  ) {}
   ngOnInit(): void {
     this.InitData();
   }
@@ -40,6 +50,14 @@ export class ProductCategoryQueueGridComponent implements OnInit {
         this.pageRange = Array.from(Array(result.totalPages).keys());
         this.pages = this.transformArray(result.data);
       }
+    });
+  }
+
+  onSelectedCategory(categoryId: number) {
+    this.selectedCategoryEvent.emit(categoryId);
+    this.communicator.send(GridAction.GridItemClick, {
+      categorySelected: categoryId,
+      grid: 'ProductCategoryQueueGrid',
     });
   }
 

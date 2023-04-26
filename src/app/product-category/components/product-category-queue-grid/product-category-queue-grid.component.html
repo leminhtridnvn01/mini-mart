@@ -17,7 +17,11 @@
           [ngClass]="{ active: pageIndex == 0 }"
           style="width: 100%; height: 100%"
         >
-          <div class="product-item-container col-2" *ngFor="let item of page">
+          <div
+            class="product-item-container col-2"
+            (click)="onSelectedCategory(item?.id)"
+            *ngFor="let item of page"
+          >
             <div
               class="product-item py-2 d-flex"
               style="height: 100%; width: 100%"
