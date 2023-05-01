@@ -2,7 +2,8 @@
   <div class="product-category-title" fxFlex="20">
     <p class="text-left font-weight-bold">Product Categories</p>
   </div>
-  <div class="product-category-content" fxFlex="80">
+  <mat-spinner *ngIf="isLoading"> </mat-spinner>
+  <div *ngIf="!isLoading" class="product-category-content" fxFlex="80">
     <div
       id="carouselExampleDark"
       class="carousel carousel-dark slide justify-content-center"

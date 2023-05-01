@@ -2,3 +2,15 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+mat-spinner{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  color: rgb(94, 53, 177);
+}
+
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: rgb(94, 53, 177);
+}

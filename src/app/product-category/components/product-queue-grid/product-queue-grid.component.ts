@@ -8,6 +8,7 @@ import { SubSink } from 'src/app/shared/models';
 import { ProductCategoryCommunicationService } from '../../services/logic/product-category-communicate.service';
 import { filter } from 'rxjs';
 import { GridAction } from 'src/app/shared/enums/grid-action';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-product-queue-grid',
@@ -15,8 +16,15 @@ import { GridAction } from 'src/app/shared/enums/grid-action';
   styleUrls: ['./product-queue-grid.component.css'],
 })
 export class ProductQueueGridComponent implements OnInit {
+  pageSize: number = 10;
+  length: number = 0;
+  pageIndex: number = 0;
+  categoryIdSelected: number = 0;
   products: GetProductResponse[];
+  isLoading: boolean = false;
+
   private subscriptions = new SubSink();
+
   @Input() selectedCategory: number;
 
   constructor(
@@ -25,7 +33,6 @@ export class ProductQueueGridComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.initProductItems();
     this.initProductItems();
   }
 
@@ -40,23 +47,50 @@ export class ProductQueueGridComponent implements OnInit {
       )
       .subscribe((action) => {
         if (action) {
-          this.refreshProductItems(action.payload?.categorySelected);
+          this.categoryIdSelected = action.payload?.categorySelected;
+          this.refreshProductItems();
         }
       });
   }
 
-  refreshProductItems(categoryId: number) {
-    var request: GetProductRequest = {
-      categoryId: categoryId,
-      pageNo: 1,
-      pageSize: 10,
-    };
-    this.service.getProducts(request).subscribe((items) => {
-      if (items) {
-        this.products = items.data;
-        console.log(this.products);
+  refreshProductItems(
+    request: GetProductRequest = {
+      categoryId: this.categoryIdSelected,
+      pageNo: this.pageIndex,
+      pageSize: this.pageSize,
+    }
+  ) {
+    this.isLoading = true;
+    this.service.getProducts(request).subscribe(
+      (items) => {
+        if (items) {
+          setTimeout(() => {
+            this.products = items.data;
+            this.pageSize = items.pageSize;
+            this.length = items.totalRecords;
+            this.pageIndex = items.pageNo;
+            this.isLoading = false;
+          }, 500);
+        }
+      },
+      (error) => {
+        this.isLoading = false;
       }
-    });
+    );
+  }
+
+  pageChange(event?: PageEvent): void {
+    if (event) {
+      this.pageIndex = event.pageIndex + 1;
+      this.pageSize = event.pageSize;
+      this.length = event.length;
+      var request: GetProductRequest = {
+        categoryId: this.categoryIdSelected,
+        pageNo: this.pageIndex,
+        pageSize: this.pageSize,
+      };
+      this.refreshProductItems(request);
+    }
   }
 
   addCommas(num: number): string {
