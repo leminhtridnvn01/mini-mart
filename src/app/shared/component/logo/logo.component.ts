@@ -11,7 +11,6 @@ export class LogoComponent implements OnInit {
   ngOnInit(): void {
     const myDiv = document.getElementsByClassName('container')[0];
     const self = this;
-    console.log(myDiv);
     myDiv?.addEventListener('mouseenter', function () {
       self.color = 'white';
     });

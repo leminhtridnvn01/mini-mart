@@ -2,10 +2,15 @@
   <div class="product-queue-title">
     <p class="text-left font-weight-bold" style="font-size: 24px">Products</p>
   </div>
-  <div class="product-queue-content p-3 row row-cols-5 gy-5">
+  <mat-spinner *ngIf="isLoading"> </mat-spinner>
+  <div *ngIf="!isLoading" class="product-queue-content p-3 row row-cols-5 gy-5">
     <div class="product-item-container" *ngFor="let product of products">
       <div class="card" style="width: 16rem; height: 22rem" fxLayout="column">
-        <a href="" fxFlex="50" fxLayout="column">
+        <a
+          [routerLink]="product.categoryId + '/product/' + product.id"
+          fxFlex="50"
+          fxLayout="column"
+        >
           <img
             [src]="product.img"
             class="card-img-top"
@@ -44,4 +49,14 @@
       </div>
     </div>
   </div>
+
+  <mat-paginator
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex - 1"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="pageChange($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
 </div>

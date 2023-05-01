@@ -36,6 +36,14 @@ export class ProductCategoryService {
     });
   }
 
+  getProduct(
+    categoryId: number,
+    productId: number
+  ): Observable<GetProductResponse> {
+    const url = `${this.baseUrl}/${categoryId}/product/${productId}`;
+    return this.http.get<GetProductResponse>(url);
+  }
+
   private getParams(request?: IPagingRequest): HttpParams {
     let params = new HttpParams();
     if (request?.pageNo) {

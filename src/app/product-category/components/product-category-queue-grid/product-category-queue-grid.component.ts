@@ -26,6 +26,7 @@ export class ProductCategoryQueueGridComponent implements OnInit {
   currentPage = 1;
   page: [][];
   pages: any[][];
+  isLoading: boolean = false;
 
   @Output('selectedCategory') selectedCategoryEvent =
     new EventEmitter<number>();
@@ -43,14 +44,23 @@ export class ProductCategoryQueueGridComponent implements OnInit {
   }
 
   refreshCategory() {
-    this.productCategoryService.getAllCategories().subscribe((result) => {
-      if (result) {
-        this.categories = result.data;
-        this.totalPage = result.totalPages;
-        this.pageRange = Array.from(Array(result.totalPages).keys());
-        this.pages = this.transformArray(result.data);
+    this.isLoading = true;
+    this.productCategoryService.getAllCategories().subscribe(
+      (result) => {
+        if (result) {
+          setTimeout(() => {
+            this.categories = result.data;
+            this.totalPage = result.totalPages;
+            this.pageRange = Array.from(Array(result.totalPages).keys());
+            this.pages = this.transformArray(result.data);
+            this.isLoading = false;
+          }, 500);
+        }
+      },
+      (error) => {
+        this.isLoading = false;
       }
-    });
+    );
   }
 
   onSelectedCategory(categoryId: number) {
