@@ -10,16 +10,17 @@ import {
   GetProductResponse,
 } from '../../models/get-product';
 import { IPagingRequest } from 'src/app/shared/models/paging-request.model';
+import { ProductLocation } from '../../models/product-location';
 
 @Injectable()
 export class ProductCategoryService {
-  private baseUrl = `${environment.webUrl}/api/Category`;
+  private baseUrl = `${environment.webUrl}/api`;
   constructor(private http: HttpClient) {}
 
   getAllCategories(
     request?: GetAllCategoriesRequest
   ): Observable<DataSourceResult<GetCategoryResponse>> {
-    const url = `${this.baseUrl}`;
+    const url = `${this.baseUrl}/Category`;
     let params = this.getParams(request);
     return this.http.get<DataSourceResult<GetCategoryResponse>>(url, {
       params,
@@ -29,7 +30,7 @@ export class ProductCategoryService {
   getProducts(
     request?: GetProductRequest
   ): Observable<DataSourceResult<GetProductResponse>> {
-    const url = `${this.baseUrl}/${request?.categoryId}/product`;
+    const url = `${this.baseUrl}/Category/${request?.categoryId}/product`;
     let params = this.getParams(request);
     return this.http.get<DataSourceResult<GetProductResponse>>(url, {
       params,
@@ -40,8 +41,13 @@ export class ProductCategoryService {
     categoryId: number,
     productId: number
   ): Observable<GetProductResponse> {
-    const url = `${this.baseUrl}/${categoryId}/product/${productId}`;
+    const url = `${this.baseUrl}/Category/${categoryId}/product/${productId}`;
     return this.http.get<GetProductResponse>(url);
+  }
+
+  getCurrentLocationProduct(producId: number): Observable<ProductLocation[]> {
+    const url = `${this.baseUrl}/Product/${producId}/get-current-location`;
+    return this.http.get<ProductLocation[]>(url);
   }
 
   private getParams(request?: IPagingRequest): HttpParams {

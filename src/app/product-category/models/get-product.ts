@@ -1,3 +1,4 @@
+import { LK_ProductUnit } from 'src/app/product-category/enums/product-unit';
 import { IPagingRequest } from 'src/app/shared/models/paging-request.model';
 
 export interface GetProductResponse {
@@ -7,7 +8,7 @@ export interface GetProductResponse {
   img?: string;
   price?: number;
   priceDecreases?: number;
-  lK_ProductUnit?: number;
+  lK_ProductUnit?: LK_ProductUnit;
   categoryId?: number;
 }
 

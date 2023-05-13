@@ -9,6 +9,7 @@ import { ProductCategoryCommunicationService } from '../../services/logic/produc
 import { filter } from 'rxjs';
 import { GridAction } from 'src/app/shared/enums/grid-action';
 import { PageEvent } from '@angular/material/paginator';
+import { LK_ProductUnit } from '../../enums/product-unit';
 
 @Component({
   selector: 'app-product-queue-grid',
@@ -93,11 +94,22 @@ export class ProductQueueGridComponent implements OnInit {
     }
   }
 
+  formatProductUnit(unit: number): string {
+    return LK_ProductUnit[unit];
+  }
+
   addCommas(num: number): string {
     if (num >= 1000) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     } else {
       return num.toString();
     }
+  }
+
+  formatMoney(amount: number): string {
+    return amount.toLocaleString('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    });
   }
 }

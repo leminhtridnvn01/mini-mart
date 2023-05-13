@@ -1,7 +1,132 @@
 <div class="product-detail-container mx-5 my-5">
   <div class="product-detail-title"></div>
-  <div class="product-detail-content" fxLayout="row">
-    <div class="product-detail-img" fxFlex="40"></div>
-    <div class="product-detail-info" fxFlex="60"></div>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <div *ngIf="!isLoading" class="product-detail-content">
+    <div class="product-detail-basic-info-content" fxLayout="row">
+      <div class="product-detail-img px-4 py-4" fxFlex="40" fxLayout="column">
+        <img [src]="product.img" alt="" fxFlex="100" />
+      </div>
+      <div class="product-detail-info px-4 py-5" fxFlex="60">
+        <div class="product-detail-info-title">
+          <h1>{{ product.name ?? "Unkonwn" }}</h1>
+        </div>
+        <div class="product-detail-info-content">
+          <div class="product-detail-info-content-main p-3">
+            <div class="product-detail-price" fxLayout="row">
+              <span fxFlex="30">Price:</span>
+              <span
+                fxFlex="70"
+                [ngClass]="
+                  product.priceDecreases ? 'text-decoration-line-through' : ''
+                "
+              >
+                {{ formatMoney(product.price) }}</span
+              >
+            </div>
+            <div
+              class="-price-decreases"
+              fxLayout="row"
+              *ngIf="product.priceDecreases"
+            >
+              <span fxFlex="30">Price Decreases:</span>
+              <span fxFlex="70" class="font-weight-bold text-danger">
+                {{ formatMoney(product.priceDecreases) }}
+              </span>
+            </div>
+            <hr />
+            <div class="product-detail-status" fxLayout="row">
+              <span fxFlex="30">Status: </span>
+              <span fxFlex="70">None</span>
+            </div>
+          </div>
+          <div class="product-detail-info-content-additional p-3">
+            <div class="product-detail-unit py-2" fxLayout="row">
+              <span fxFlex="30">Unit: </span>
+              <span fxFlex="70">
+                {{ formatProductUnit(product.lK_ProductUnit) }}
+              </span>
+            </div>
+            <div class="product-detail-quantities py-2" fxLayout="row">
+              <span fxFlex="30">Quantities: </span>
+              <div class="input-group" fxFlex="15" fxLayout="row">
+                <div class="input-group" fxFlex="100" fxLayout="row">
+                  <button
+                    class="btn btn-outline-secondary rounded-lg"
+                    type="button"
+                    id="buttonSubtract"
+                    (click)="onMinusQuantityBtnClick()"
+                    fxFlex="30"
+                  >
+                    -
+                  </button>
+                  <input
+                    class="form-control"
+                    id="quantitiesInput"
+                    [value]="quantity"
+                    min="1"
+                    readonly
+                    fxFlex="40"
+                  />
+                  <button
+                    class="btn btn-outline-secondary rounded-lg"
+                    type="button"
+                    id="buttonAdd"
+                    (click)="onAddQuantityBtnClick()"
+                    fxFlex="30"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="product-detail-add-to-basket-button"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+          >
+            <a
+              class="btn btn-primary mx-3"
+              fxFlex="40"
+              fxLayoutAlign="center center"
+            >
+              <mat-icon>shopping_cart</mat-icon>
+              <span> Add to Basket </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="product-detail-status-info-content" fxLayout="row">
+      <div class="product-detail-status-locate mx-5" fxFlex="50">
+        <h2>Current Locate Store</h2>
+        <div
+          class="list-location-container"
+          *ngFor="let productLocation of productLocations; let index = index"
+        >
+          <mat-list-item (click)="toggle[index] = !toggle[index]">
+            <a matLine style="font-size: 20px">{{
+              productLocation.cityName
+            }}</a>
+            <span>
+              <mat-icon *ngIf="!toggle[index]">expand_more</mat-icon>
+              <mat-icon *ngIf="toggle[index]">expand_less</mat-icon>
+            </span>
+          </mat-list-item>
+          <div [hidden]="!toggle[index]">
+            <mat-selection-list>
+              <mat-list-option
+                *ngFor="let store of productLocation.stores"
+                checkboxPosition="before"
+              >
+                {{ store.storeName }}
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+        </div>
+      </div>
+      <div class="product-detail-status-current" fxFlex="50"></div>
+    </div>
   </div>
 </div>

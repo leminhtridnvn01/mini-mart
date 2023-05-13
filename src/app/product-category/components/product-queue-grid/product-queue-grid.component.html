@@ -30,11 +30,20 @@
           </p>
           <p class="card-text" style="font-size: 12px" fxFlex="30">
             Unit:
-            {{ addCommas(product.lK_ProductUnit) }}
+            {{ formatProductUnit(product.lK_ProductUnit) }}
           </p>
-          <p class="card-text" style="font-size: 12px; color: red" fxFlex="30">
-            Price:
-            {{ addCommas(product.price) }}
+          <p class="card-text" style="font-size: 12px" fxFlex="30">
+            <span>Price: &nbsp;</span>
+            <span *ngIf="product.priceDecreases" style="color: red">
+              {{ formatMoney(product.priceDecreases) }} &nbsp;
+            </span>
+            <span
+              [ngClass]="
+                product.priceDecreases ? 'text-decoration-line-through' : ''
+              "
+              [ngStyle]="{ color: product.priceDecreases ? 'grey' : 'red' }"
+              >{{ formatMoney(product.price) }}</span
+            >
           </p>
           <a
             class="btn btn-primary"
