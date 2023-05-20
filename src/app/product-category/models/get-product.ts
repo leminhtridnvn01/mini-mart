@@ -14,4 +14,5 @@ export interface GetProductResponse {
 
 export interface GetProductRequest extends IPagingRequest {
   categoryId?: number;
+  search?: string;
 }

@@ -22,23 +22,34 @@
         <app-logo></app-logo>
       </button>
       <div class="search-bar-container" fxFlex="35">
-        <form class="d-flex h-100">
+        <div class="d-flex h-100">
           <input
+            id="search-input"
             class="form-control me-2 btn-search"
             type="search"
             placeholder="Search"
             aria-label="Search"
+            (keyup.enter)="onClickSearchBtn()"
           />
-          <button class="btn header-button" type="submit">
+          <button
+            class="btn header-button"
+            type="button"
+            (click)="onClickSearchBtn()"
+          >
             <mat-icon class="mr-2 item-center txt-bold">search</mat-icon>
           </button>
-        </form>
+        </div>
       </div>
       <span fxFlex></span>
     </div>
   </mat-toolbar>
 
-  <mat-drawer-container fxFlex autosize class="background">
+  <mat-drawer-container
+    fxFlex
+    autosize
+    class="background"
+    style="background-color: #f5f5f5"
+  >
     <mat-drawer #drawer class="btn-page-container">
       <div fxLayout="column" class="" fxLayoutGap="5px">
         <button
@@ -57,29 +68,29 @@
         <mat-divider></mat-divider>
         <button
           mat-raised-button
-          routerLink="/product-category"
+          routerLink="/products"
           routerLinkActive="selected no-border "
           fxFlex="10"
           fxLayoutAlign="start"
           class="no-border btn btn-page"
         >
           <span fxLayoutAlign="start">
-            <mat-icon class="mr-2 item-center">shopping_cart</mat-icon>
+            <mat-icon class="mr-2 item-center">layers</mat-icon>
             <span class="item-center txt-bold"> Category </span>
           </span>
         </button>
         <mat-divider></mat-divider>
         <button
           mat-raised-button
-          routerLink="/"
+          routerLink="/cart"
           routerLinkActive="selected no-border"
           fxFlex="10"
           fxLayoutAlign="start"
           class="no-border btn btn-page"
         >
           <span fxLayoutAlign="start">
-            <mat-icon class="mr-2 item-center">home</mat-icon>
-            <span class="item-center txt-bold"> Page 3 </span>
+            <mat-icon class="mr-2 item-center">shopping_cart</mat-icon>
+            <span class="item-center txt-bold"> Cart </span>
           </span>
         </button>
         <mat-divider></mat-divider>

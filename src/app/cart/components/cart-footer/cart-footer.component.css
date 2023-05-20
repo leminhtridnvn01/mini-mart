@@ -1,0 +1,30 @@
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 16px;
+  z-index: 999;
+}
+
+.footer-content {
+  background-color: white;
+  border: 1px solid rgb(219, 219, 219);
+  box-shadow: 0px -5px 5px -3px rgba(0, 0, 0, 0.2), 0px -8px 10px 1px rgba(143, 134, 134, 0.14), 0px -3px 14px 2px rgba(161, 146, 146, 0.12);
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: rgb(94, 53, 177);
+  --bs-btn-border-color: rgb(94, 53, 177);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgb(94, 53, 177);
+  --bs-btn-hover-border-color: rgb(94, 53, 177);
+  --bs-btn-focus-shadow-rgb: 108, 117, 125;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: rgb(94, 53, 177);
+  --bs-btn-active-border-color: rgb(94, 53, 177);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: rgb(94, 53, 177);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: rgb(94, 53, 177);
+  --bs-gradient: none;
+}

@@ -5,11 +5,12 @@ import {
   GetProductResponse,
 } from '../../models/get-product';
 import { SubSink } from 'src/app/shared/models';
-import { ProductCategoryCommunicationService } from '../../services/logic/product-category-communicate.service';
 import { filter } from 'rxjs';
-import { GridAction } from 'src/app/shared/enums/grid-action';
+import { GridAction } from 'src/app/common/enums/grid-action';
 import { PageEvent } from '@angular/material/paginator';
 import { LK_ProductUnit } from '../../enums/product-unit';
+import { AddProductToCart } from '../../models/add-product-to-cart';
+import { CommonCommunicationService } from 'src/app/common/services';
 
 @Component({
   selector: 'app-product-queue-grid',
@@ -30,7 +31,7 @@ export class ProductQueueGridComponent implements OnInit {
 
   constructor(
     private service: ProductCategoryService,
-    private communicator: ProductCategoryCommunicationService
+    private communicator: CommonCommunicationService
   ) {}
 
   ngOnInit(): void {
@@ -43,15 +44,52 @@ export class ProductQueueGridComponent implements OnInit {
         filter(
           (action) =>
             action?.action === GridAction.GridItemClick &&
-            action?.payload?.grid === 'ProductCategoryQueueGrid'
+            (action?.payload?.grid === 'ProductCategoryQueueGrid' ||
+              action?.payload?.grid === 'ProductSearchQueueGrid')
         )
       )
       .subscribe((action) => {
-        if (action) {
-          this.categoryIdSelected = action.payload?.categorySelected;
-          this.refreshProductItems();
+        if (action?.payload?.grid) {
+          switch (action.payload?.grid) {
+            case 'ProductCategoryQueueGrid':
+              this.categoryIdSelected = action.payload?.categorySelected;
+              this.pageIndex = 0;
+              this.refreshProductItems();
+              break;
+            case 'ProductSearchQueueGrid':
+              this.pageIndex = 0;
+              this.searchProductItems(action.payload?.search);
+              break;
+            default:
+              break;
+          }
         }
       });
+  }
+
+  searchProductItems(search: string) {
+    var request: GetProductRequest = {
+      search: search,
+      pageNo: this.pageIndex,
+      pageSize: this.pageSize,
+    };
+    this.isLoading = true;
+    this.service.searchProducts(request).subscribe(
+      (items) => {
+        if (items) {
+          setTimeout(() => {
+            this.products = items.data;
+            this.pageSize = items.pageSize;
+            this.length = items.totalRecords;
+            this.pageIndex = items.pageNo;
+            this.isLoading = false;
+          }, 500);
+        }
+      },
+      (error) => {
+        this.isLoading = false;
+      }
+    );
   }
 
   refreshProductItems(
@@ -92,6 +130,23 @@ export class ProductQueueGridComponent implements OnInit {
       };
       this.refreshProductItems(request);
     }
+  }
+
+  onAddToCart(productId: number, quantity: number) {
+    var request: AddProductToCart = {
+      productId: productId,
+      quantity: quantity,
+    };
+    this.service.addProductInCart(request).subscribe(
+      (item) => {
+        if (item) {
+          //do something as Pop-up, alert...
+        }
+      },
+      (error) => {
+        //do something as Pop-up, alert...
+      }
+    );
   }
 
   formatProductUnit(unit: number): string {

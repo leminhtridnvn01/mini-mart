@@ -55,7 +55,10 @@ body {
 
 .header-button:active {
   background-color: rgb(237, 231, 246);
-  color: white;
+  /* color: white; */
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
 }
 
 .btn-search {
@@ -80,7 +83,10 @@ body {
 }
 .btn-page:active {
   background-color: rgb(237, 231, 246);
-  border-color: rgb(94, 53, 177);
+  /* border-color: rgb(94, 53, 177); */
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
 }
 
 .item-center {

@@ -1,0 +1,19 @@
+.cart-title{
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 18px;
+  background-color: white;
+}
+
+.cart-item-container{
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 18px;
+  background-color: white;
+  height: 250px;
+}
+
+mat-checkbox {
+  --mdc-checkbox-selected-focus-icon-color: rgb(94, 53, 177) !important;
+  --mdc-checkbox-selected-hover-icon-color: rgb(94, 53, 177) !important;
+  --mdc-checkbox-selected-icon-color: rgb(94, 53, 177) !important;
+  --mdc-checkbox-selected-pressed-icon-color: rgb(94, 53, 177) !important;
+}

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProductCategoryCommunicationService } from '../services/logic/product-category-communicate.service';
 
 @Component({
   selector: 'app-product-category',
@@ -9,7 +8,7 @@ import { ProductCategoryCommunicationService } from '../services/logic/product-c
 export class ProductCategoryComponent implements OnInit {
   selectedCategory: number;
 
-  constructor(private communicator: ProductCategoryCommunicationService) {}
+  constructor() {}
   ngOnInit(): void {}
 
   onSelectedCategoryChange($event: any): number {
