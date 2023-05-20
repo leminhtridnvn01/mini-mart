@@ -1,3 +1,4 @@
+import { CommonCommunicationService } from 'src/app/common/services';
 import { GetAllCategoriesRequest } from '../../models/GetAllCategories';
 import { GetCategoryResponse } from '../../models/GetAllCategories';
 import { ProductCategoryService } from '../../services/http/product-category.service';
@@ -11,8 +12,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { ProductCategoryCommunicationService } from '../../services/logic/product-category-communicate.service';
-import { GridAction } from 'src/app/shared/enums/grid-action';
+import { GridAction } from 'src/app/common/enums/grid-action';
 
 @Component({
   selector: 'app-product-category-queue-grid',
@@ -33,7 +33,7 @@ export class ProductCategoryQueueGridComponent implements OnInit {
 
   constructor(
     private productCategoryService: ProductCategoryService,
-    private communicator: ProductCategoryCommunicationService
+    private communicator: CommonCommunicationService
   ) {}
   ngOnInit(): void {
     this.InitData();
@@ -69,6 +69,7 @@ export class ProductCategoryQueueGridComponent implements OnInit {
       categorySelected: categoryId,
       grid: 'ProductCategoryQueueGrid',
     });
+    console.log('da sent');
   }
 
   private transformArray(inputArray: any[]): any[][] {

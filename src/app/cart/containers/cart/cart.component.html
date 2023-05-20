@@ -1,0 +1,78 @@
+<div class="cart-container mx-5 my-5 py-5 px-5">
+  <div
+    class="cart-title my-5 px-3 py-3"
+    fxLayout="row"
+    fxLayoutAlign="space-around center"
+  >
+    <mat-checkbox fxFlex="5"></mat-checkbox>
+    <div class="cart-title-product text-center" fxFlex="25">
+      <span>Product</span>
+    </div>
+    <div class="cart-title-price text-center" fxFlex="20">
+      <span>Price</span>
+    </div>
+    <div class="cart-title-quantity text-center" fxFlex="15">
+      <span>Quantity</span>
+    </div>
+    <div class="cart-title-total-cost text-center" fxFlex="20">
+      <span>Total</span>
+    </div>
+  </div>
+
+  <div class="cart-content my-5">
+    <div
+      class="cart-item-container my-3 px-3 py-3"
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+      *ngFor="let product of products; let index = index"
+    >
+      <mat-checkbox fxFlex="5"></mat-checkbox>
+      <div class="cart-item-product w-100 h-100" fxFlex="25" fxLayout="column">
+        <img class="h-100 w-75" [src]="product.img" alt="" fxFlex="90" />
+        <span class="text-truncate" fxFlex="10">{{ product.name }}</span>
+      </div>
+      <div class="cart-item-price text-center" fxFlex="20">
+        <span>{{ formatMoney(product.price) }}</span>
+      </div>
+      <div
+        class="cart-item-quantity text-center"
+        fxFlex="15"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+      >
+        <div class="input-group" fxFlex="80" fxLayout="row">
+          <button
+            class="btn btn-outline-secondary rounded-lg"
+            type="button"
+            id="buttonSubtract"
+            (click)="onMinusQuantityBtnClick(index)"
+            fxFlex="30"
+          >
+            -
+          </button>
+          <input
+            class="form-control text-center"
+            [id]="'quantitiesInput' + ' ' + index"
+            [value]="product.quantity"
+            min="1"
+            readonly
+            fxFlex="40"
+          />
+          <button
+            class="btn btn-outline-secondary rounded-lg"
+            type="button"
+            id="buttonAdd"
+            (click)="onAddQuantityBtnClick(index)"
+            fxFlex="30"
+          >
+            +
+          </button>
+        </div>
+      </div>
+      <div class="cart-item-total-cost text-center" fxFlex="20">
+        <span>{{ formatMoney(product.price * product.quantity) }}</span>
+      </div>
+    </div>
+  </div>
+  <app-cart-footer></app-cart-footer>
+</div>

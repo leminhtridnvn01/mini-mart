@@ -1,5 +1,5 @@
 <div class="product-queue-grid-container">
-  <div class="product-queue-title">
+  <div class="product-queue-title my-3">
     <p class="text-left font-weight-bold" style="font-size: 24px">Products</p>
   </div>
   <mat-spinner *ngIf="isLoading"> </mat-spinner>
@@ -50,9 +50,10 @@
             fxFlex="35"
             fxLayout="row"
             fxLayoutAlign="center center"
+            (click)="onAddToCart(product.id, 1)"
           >
             <mat-icon>shopping_cart</mat-icon>
-            <span> Add to Basket </span>
+            <span> Add to Cart </span>
           </a>
         </div>
       </div>
@@ -60,6 +61,7 @@
   </div>
 
   <mat-paginator
+    class="my-3"
     [length]="length"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex - 1"

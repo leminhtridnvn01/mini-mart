@@ -34,6 +34,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRippleModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -69,6 +70,7 @@ import { CommonModule } from '@angular/common';
     MatSortModule,
     MatPaginatorModule,
     MatRippleModule,
+    MatCheckboxModule,
   ],
   exports: [
     CommonModule,
@@ -102,6 +104,7 @@ import { CommonModule } from '@angular/common';
     MatSortModule,
     MatPaginatorModule,
     MatRippleModule,
+    MatCheckboxModule,
   ],
 })
 export class AppMaterialModuleTsModule {}
