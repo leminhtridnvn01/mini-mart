@@ -3,6 +3,8 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.txt-bold {font-weight: bold;}
+
 mat-spinner{
   display: flex;
   align-items: center;
@@ -13,4 +15,21 @@ mat-spinner{
 
 .mat-mdc-progress-spinner {
   --mdc-circular-progress-active-indicator-color: rgb(94, 53, 177);
+}
+
+.w-clock {
+  width: 270px!important; /* Đặt độ rộng */
+  height: 270px!important; /* Đặt chiều cao */
+}
+
+.w-time {
+  height: 400px!important;
+}
+
+.w-timepicker-dialog {
+  min-height: 400px!important;
+}
+
+.mat-mdc-mini-fab.mat-accent {
+  --mat-mdc-fab-color: black;
 }

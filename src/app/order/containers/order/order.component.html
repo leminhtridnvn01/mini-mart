@@ -1,0 +1,54 @@
+<div class="order-container mx-5 my-5 px-5 py-4">
+  <mat-tab-group (selectedIndexChange)="onSelectTab($event)">
+    <mat-tab *ngFor="let label of tabLabels" [label]="label.value">
+      <div
+        class="card-item-container mx-5 my-5 px-3 py-3"
+        *ngFor="let order of orders"
+      >
+        <div class="card-item-title" fxLayout="row">
+          <mat-icon style="color: rgb(94, 53, 177)">store</mat-icon>
+          <span class="mx-2 txt-bold" style="color: rgb(94, 53, 177)">{{
+            order.storeName
+          }}</span>
+        </div>
+        <hr style="border-color: rgb(94, 53, 177); border-width: 3px" />
+        <div class="card-item-content">
+          <div
+            class="card-item-content-product mx-3 my-3 px-3 py-3"
+            *ngFor="let product of order.products"
+            fxLayout="column"
+            fxLayoutAlign="space-around stretch"
+          >
+            <div
+              class="product-info"
+              fxLayout="row"
+              fxLayoutAlign="space-between stretch"
+            >
+              <img class="px-1 py-1" [src]="product.img" alt="" fxFlex="20" />
+
+              <div class="product-description" fxFlex="50">
+                <p style="font-size: 20px">{{ product.name }}</p>
+                <p style="color: gray">{{ product.description }}</p>
+                <p style="color: gray">{{ "x" + product.quantity }}</p>
+              </div>
+              <p class="card-text" style="font-size: 20px" fxFlex="30">
+                <span>Price: &nbsp;</span>
+                <span *ngIf="product.priceDecreases" style="color: red">
+                  {{ formatMoney(product.priceDecreases) }} &nbsp;
+                </span>
+                <span
+                  [ngClass]="
+                    product.priceDecreases ? 'text-decoration-line-through' : ''
+                  "
+                  [ngStyle]="{ color: product.priceDecreases ? 'grey' : 'red' }"
+                  >{{ formatMoney(product.price) }}</span
+                >
+              </p>
+            </div>
+            <hr />
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

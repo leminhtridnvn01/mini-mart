@@ -1,0 +1,31 @@
+<button
+  *ngIf="isRaised"
+  mat-raised-button
+  class="full-width btn btn-primary"
+  color="primary"
+  [title]="title"
+  [disabled]="isDisable || isLoading"
+  (click)="buttonClick.emit()"
+>
+  <mat-icon *ngIf="isLoading">
+    <mat-spinner diameter="24"></mat-spinner>
+  </mat-icon>
+  <ng-container *ngTemplateOutlet="tempOutlet"></ng-container>
+</button>
+<button
+  *ngIf="!isRaised"
+  mat-stroked-button
+  class="full-width btn btn-primary"
+  color="primary"
+  [disabled]="isDisable || isLoading"
+  (click)="buttonClick.emit()"
+>
+  <mat-icon *ngIf="isLoading">
+    <mat-spinner diameter="24"></mat-spinner>
+  </mat-icon>
+  <ng-container *ngTemplateOutlet="tempOutlet"></ng-container>
+</button>
+
+<ng-template #tempOutlet>
+  <ng-content *ngIf="!isLoading"></ng-content>
+</ng-template>

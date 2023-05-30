@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 import { CartService } from './../../services/http/cart.service';
-import { GetProductInCart } from '../../models/product-in-cart';
+import { ProductInCart } from '../../models/product-in-cart';
 import { ProductCategoryService } from 'src/app/product-category/services';
 import { AddProductToCart } from 'src/app/product-category/models/add-product-to-cart';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-cart',
@@ -11,7 +12,7 @@ import { AddProductToCart } from 'src/app/product-category/models/add-product-to
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  products: GetProductInCart[];
+  products: ProductInCart[];
   constructor(
     private cartService: CartService,
     private productService: ProductCategoryService
@@ -23,7 +24,6 @@ export class CartComponent implements OnInit {
     this.cartService.getProductInCart().subscribe((items) => {
       if (items) {
         this.products = items.data;
-        console.log(this.products);
       }
     });
   }
@@ -73,6 +73,7 @@ export class CartComponent implements OnInit {
       productId: this.products[index]?.id,
     };
 
+    ///??????????????
     this.productService.addProductInCart(request).subscribe(
       (item) => {
         if (item) {
@@ -83,5 +84,13 @@ export class CartComponent implements OnInit {
         //do something as Pop-up, alert...
       }
     );
+  }
+
+  onClickCheckbox(event: MatCheckboxChange, product: ProductInCart) {
+    if (event.checked) {
+      product.isSelected = true;
+    } else {
+      product.isSelected = false;
+    }
   }
 }

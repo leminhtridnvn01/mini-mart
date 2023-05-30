@@ -1,0 +1,39 @@
+
+
+.snack-bar-container {
+  width: 350px;
+  border-radius: 100px;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  .material-message {
+    padding: 0 0 0 0.5rem !important;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.material-icons-outlined {
+  font-size: 20px;
+  padding: 4px;
+}
+
+.material-icons-outlined:hover {
+  background-color: #718792;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.material-icons-message-type {
+  font-size: 20px;
+}
+
+.snack-bar-button{
+  margin-left: 10px;
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center; */
+}
+
+
