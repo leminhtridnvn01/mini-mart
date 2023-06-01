@@ -11,6 +11,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { LK_ProductUnit } from '../../enums/product-unit';
 import { AddProductToCart } from '../../models/add-product-to-cart';
 import { CommonCommunicationService } from 'src/app/common/services';
+import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
+import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
 
 @Component({
   selector: 'app-product-queue-grid',
@@ -31,7 +33,8 @@ export class ProductQueueGridComponent implements OnInit {
 
   constructor(
     private service: ProductCategoryService,
-    private communicator: CommonCommunicationService
+    private communicator: CommonCommunicationService,
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -140,11 +143,17 @@ export class ProductQueueGridComponent implements OnInit {
     this.service.addProductInCart(request).subscribe(
       (item) => {
         if (item) {
-          //do something as Pop-up, alert...
+          this.snackBarService.openSnackBar(
+            'Product is added to cart',
+            SNACK_BAR_TYPE.Success
+          );
         }
       },
       (error) => {
-        //do something as Pop-up, alert...
+        this.snackBarService.openSnackBar(
+          'Fail to add this product to cart',
+          SNACK_BAR_TYPE.Error
+        );
       }
     );
   }

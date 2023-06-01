@@ -26,7 +26,10 @@
       fxLayoutAlign="space-around center"
       *ngFor="let product of products; let index = index"
     >
-      <mat-checkbox fxFlex="5"></mat-checkbox>
+      <mat-checkbox
+        (change)="onClickCheckbox($event, product)"
+        fxFlex="5"
+      ></mat-checkbox>
       <div class="cart-item-product w-100 h-100" fxFlex="25" fxLayout="column">
         <img class="h-100 w-75" [src]="product.img" alt="" fxFlex="90" />
         <span class="text-truncate" fxFlex="10">{{ product.name }}</span>
@@ -74,5 +77,5 @@
       </div>
     </div>
   </div>
-  <app-cart-footer></app-cart-footer>
+  <app-cart-footer [products]="products"></app-cart-footer>
 </div>

@@ -1,0 +1,14 @@
+.mat-select-content {
+  /* max-width: 350px; */
+  /* or */
+  /* width: 50px; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-mdc-form-field{
+  width: 100%;
+}
+
+

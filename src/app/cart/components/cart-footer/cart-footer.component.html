@@ -15,7 +15,13 @@
       <span fxFlex="25">15</span>
     </div>
     <div class="payment" fxFlex="20">
-      <button type="button" class="btn btn-outline-secondary w-75">Pay</button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary w-75"
+        (click)="onPayBtnClick()"
+      >
+        Pay
+      </button>
     </div>
   </mat-toolbar>
 </div>

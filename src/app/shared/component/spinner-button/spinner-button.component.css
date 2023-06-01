@@ -1,0 +1,8 @@
+:host {
+  display: inline-block;
+}
+
+* {
+  font-size: 14px;
+  font-weight: 400;
+}

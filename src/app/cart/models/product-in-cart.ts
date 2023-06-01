@@ -1,6 +1,6 @@
 import { LK_ProductUnit } from 'src/app/product-category/enums/product-unit';
 
-export interface GetProductInCart {
+export interface ProductInCart {
   id: number;
   name: string;
   description: string;
@@ -10,4 +10,5 @@ export interface GetProductInCart {
   lk_ProductUnit: LK_ProductUnit;
   categoryId: number;
   quantity: number;
+  isSelected?: boolean;
 }

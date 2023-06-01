@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 
 //Angular Material Components
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,9 +32,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
+import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
 
 @NgModule({
   declarations: [],
@@ -71,6 +73,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatPaginatorModule,
     MatRippleModule,
     MatCheckboxModule,
+
+    MaterialTimePickerModule,
   ],
   exports: [
     CommonModule,
@@ -105,6 +109,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatPaginatorModule,
     MatRippleModule,
     MatCheckboxModule,
+
+    MaterialTimePickerModule,
   ],
+  providers: [{ provide: LOCALE_ID, useValue: 'en-US' }],
 })
 export class AppMaterialModuleTsModule {}
