@@ -3,13 +3,46 @@
     <mat-tab *ngFor="let label of tabLabels" [label]="label.value">
       <div
         class="card-item-container mx-5 my-5 px-3 py-3"
-        *ngFor="let order of orders"
+        *ngFor="let order of orders; let orderIndex = index"
       >
-        <div class="card-item-title" fxLayout="row">
-          <mat-icon style="color: rgb(94, 53, 177)">store</mat-icon>
-          <span class="mx-2 txt-bold" style="color: rgb(94, 53, 177)">{{
-            order.storeName
-          }}</span>
+        <div
+          class="card-item-title"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <div class="store-name" fxLayout="row">
+            <mat-icon style="color: rgb(94, 53, 177)">store</mat-icon>
+            <span class="mx-2 txt-bold" style="color: rgb(94, 53, 177)">
+              {{ order.storeName }}
+            </span>
+          </div>
+          <div
+            class="user-info"
+            fxFlex="40"
+            fxLayout="row"
+            fxLayoutAlign="end center"
+          >
+            <a
+              class="edit-use-info px-2 py-2"
+              (click)="onEditBtnClick(order)"
+              fxLayout="row"
+            >
+              <span class="text-truncate mx-2">
+                {{
+                  (order.userName ? order.userName : "...") +
+                    ", " +
+                    (order.deliveryAddress ? order.deliveryAddress : "...") +
+                    ", " +
+                    (order.contactPhoneNumber
+                      ? order.contactPhoneNumber
+                      : "...")
+                }}
+              </span>
+              <mat-icon class="btn-edit" style="color: rgb(94, 53, 177)">
+                edit
+              </mat-icon>
+            </a>
+          </div>
         </div>
         <hr style="border-color: rgb(94, 53, 177); border-width: 3px" />
         <div class="card-item-content">
@@ -41,11 +74,138 @@
                     product.priceDecreases ? 'text-decoration-line-through' : ''
                   "
                   [ngStyle]="{ color: product.priceDecreases ? 'grey' : 'red' }"
-                  >{{ formatMoney(product.price) }}</span
-                >
+                  >{{ formatMoney(product.price) }}
+                </span>
               </p>
             </div>
             <hr />
+          </div>
+          <div
+            class="total-price my-3"
+            fxLayout="row"
+            fxLayoutAlign="space-around center"
+          >
+            <div
+              class="ml-4 mr-3"
+              style="font-size: 20px"
+              fxFlex="65"
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+            >
+              <div
+                class="order-type-select"
+                fxFlex="30"
+                fxLayout="row"
+                fxLayoutAlign="start center"
+              >
+                <span fxFlex="35"> Order Type: </span>
+                <mat-form-field fxFlex="60">
+                  <mat-label>Select an option</mat-label>
+                  <mat-select
+                    placeholder="Select a Order Type"
+                    [formControl]="toControl(orderTypeForms.at(orderIndex))"
+                    [value]="toControl(orderTypeForms.at(orderIndex)).value"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let orderType of orderTypes"
+                      [value]="orderType.value"
+                      (onSelectionChange)="onSelectOrderType($event, order)"
+                    >
+                      {{ orderType.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                *ngIf="order.orderType == 1"
+                class="time-container mx-3"
+                fxFlex="30"
+              >
+                <form
+                  class="demo-form"
+                  fxLayout="row"
+                  fxLayoutAlign="space-between stretch"
+                  appearance="fill"
+                >
+                  <material-timepicker
+                    class="mr-2 custom-timepicker"
+                    color="primary"
+                    label="Pick-up Time From"
+                    [userTime]="exportTime"
+                    (change)="onChangePickupTimeFrom($event, order)"
+                    revertLabel="Remove"
+                    submitLabel="Ok"
+                    fxFlex="47"
+                    appearance="outline"
+                  >
+                  </material-timepicker>
+                  <material-timepicker
+                    class="mr-2 custom-timepicker"
+                    color="primary"
+                    label="Pick-up Time From"
+                    [userTime]="exportTime"
+                    (change)="onChangePickupTimeTo($event, order)"
+                    revertLabel="Remove"
+                    submitLabel="Ok"
+                    fxFlex="47"
+                    appearance="outline"
+                  ></material-timepicker>
+                </form>
+              </div>
+              <div
+                class="payment-method-select"
+                fxFlex="35"
+                fxLayout="row"
+                fxLayoutAlign="start center"
+              >
+                <span fxFlex="35"> Payment Method: </span>
+                <mat-form-field fxFlex="60">
+                  <mat-label>Select an option</mat-label>
+                  <mat-select
+                    placeholder="Select a Payment Method"
+                    [formControl]="toControl(paymentMethodForms.at(orderIndex))"
+                    [value]="toControl(paymentMethodForms.at(orderIndex)).value"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let paymentMethod of paymentMethods"
+                      [value]="paymentMethod.value"
+                      (onSelectionChange)="onSelectPaymentMethod($event, order)"
+                    >
+                      {{ paymentMethod.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div
+              style="font-size: 20px"
+              fxFlex="30"
+              fxLayout="row"
+              fxLayoutAlign="space-around stretch"
+            >
+              <span>Total Price:</span>
+              <span class="font-weight-bold text-danger">
+                {{ formatMoney(order.totalPrice) }}
+              </span>
+            </div>
+          </div>
+          <div
+            class="action-btn"
+            fxLayout="row"
+            fxLayoutAlign="space-around stretch"
+          >
+            <div fxFlex="70"></div>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="onBtnOrderClick(order)"
+              fxFlex="30"
+            >
+              Order
+            </button>
           </div>
         </div>
       </div>

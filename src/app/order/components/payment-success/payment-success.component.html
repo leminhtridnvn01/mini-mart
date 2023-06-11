@@ -1,0 +1,127 @@
+<div
+  class="w-100 d-flex justify-content-center align-items-center"
+  style="height: 89vh"
+>
+  <div
+    class="shadow-lg rounded-xl gap-3 pb-3 pt-2"
+    style="width: 300px; height: 200px; border-radius: 0.75rem"
+    fxLayout="column"
+    fxLayoutAlign="space-between center"
+  >
+    <div *ngIf="isSuccess" class="w-100" fxFlex="25">
+      <svg
+        stroke="currentColor"
+        fill="currentColor"
+        stroke-width="0"
+        version="1"
+        viewBox="0 0 48 48"
+        enable-background="new 0 0 48 48"
+        class="w-100 h-100"
+        height="1em"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <polygon
+          fill="#8BC34A"
+          points="24,3 28.7,6.6 34.5,5.8 36.7,11.3 42.2,13.5 41.4,19.3 45,24 41.4,28.7 42.2,34.5 36.7,36.7 34.5,42.2 28.7,41.4 24,45 19.3,41.4 13.5,42.2 11.3,36.7 5.8,34.5 6.6,28.7 3,24 6.6,19.3 5.8,13.5 11.3,11.3 13.5,5.8 19.3,6.6"
+        ></polygon>
+        <polygon
+          fill="#CCFF90"
+          points="34.6,14.6 21,28.2 15.4,22.6 12.6,25.4 21,33.8 37.4,17.4"
+        ></polygon>
+      </svg>
+    </div>
+    <div *ngIf="!isSuccess" class="w-100" fxFlex="25">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        class="w-100 h-100"
+        viewBox="0 0 256 256"
+        xml:space="preserve"
+      >
+        <defs></defs>
+        <g
+          style="
+            stroke: none;
+            stroke-width: 0;
+            stroke-dasharray: none;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+            stroke-miterlimit: 10;
+            fill: none;
+            fill-rule: nonzero;
+            opacity: 1;
+          "
+          transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+        >
+          <path
+            d="M 45 90 C 20.187 90 0 69.813 0 45 C 0 20.187 20.187 0 45 0 c 24.813 0 45 20.187 45 45 C 90 69.813 69.813 90 45 90 z"
+            style="
+              stroke: none;
+              stroke-width: 1;
+              stroke-dasharray: none;
+              stroke-linecap: butt;
+              stroke-linejoin: miter;
+              stroke-miterlimit: 10;
+              fill: rgb(236, 0, 0);
+              fill-rule: nonzero;
+              opacity: 1;
+            "
+            transform=" matrix(1 0 0 1 0 0) "
+            stroke-linecap="round"
+          />
+          <path
+            d="M 28.902 66.098 c -1.28 0 -2.559 -0.488 -3.536 -1.465 c -1.953 -1.952 -1.953 -5.118 0 -7.07 l 32.196 -32.196 c 1.951 -1.952 5.119 -1.952 7.07 0 c 1.953 1.953 1.953 5.119 0 7.071 L 32.438 64.633 C 31.461 65.609 30.182 66.098 28.902 66.098 z"
+            style="
+              stroke: none;
+              stroke-width: 1;
+              stroke-dasharray: none;
+              stroke-linecap: butt;
+              stroke-linejoin: miter;
+              stroke-miterlimit: 10;
+              fill: rgb(255, 255, 255);
+              fill-rule: nonzero;
+              opacity: 1;
+            "
+            transform=" matrix(1 0 0 1 0 0) "
+            stroke-linecap="round"
+          />
+          <path
+            d="M 61.098 66.098 c -1.279 0 -2.56 -0.488 -3.535 -1.465 L 25.367 32.438 c -1.953 -1.953 -1.953 -5.119 0 -7.071 c 1.953 -1.952 5.118 -1.952 7.071 0 l 32.195 32.196 c 1.953 1.952 1.953 5.118 0 7.07 C 63.657 65.609 62.377 66.098 61.098 66.098 z"
+            style="
+              stroke: none;
+              stroke-width: 1;
+              stroke-dasharray: none;
+              stroke-linecap: butt;
+              stroke-linejoin: miter;
+              stroke-miterlimit: 10;
+              fill: rgb(255, 255, 255);
+              fill-rule: nonzero;
+              opacity: 1;
+            "
+            transform=" matrix(1 0 0 1 0 0) "
+            stroke-linecap="round"
+          />
+        </g>
+      </svg>
+    </div>
+    <h2
+      *ngIf="isSuccess"
+      class="text-xl font-semibold text-green-500"
+      fxFlex="30"
+    >
+      Pay Successfully !!!
+    </h2>
+    <h2
+      *ngIf="!isSuccess"
+      class="text-xl font-semibold text-red-500"
+      fxFlex="30"
+    >
+      Pay Unsuccessfully !!!
+    </h2>
+    <div class="h-100" fxFlex="40">
+      <button type="button" class="btn btn-dark h-100">Done</button>
+    </div>
+  </div>
+</div>

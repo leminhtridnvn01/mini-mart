@@ -13,6 +13,12 @@ import { AddProductToCart } from '../../models/add-product-to-cart';
 import { CommonCommunicationService } from 'src/app/common/services';
 import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
 import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-product-queue-grid',
@@ -26,6 +32,7 @@ export class ProductQueueGridComponent implements OnInit {
   categoryIdSelected: number = 0;
   products: GetProductResponse[];
   isLoading: boolean = false;
+  locationForms: FormArray;
 
   private subscriptions = new SubSink();
 
@@ -108,6 +115,10 @@ export class ProductQueueGridComponent implements OnInit {
         if (items) {
           setTimeout(() => {
             this.products = items.data;
+            this.locationForms = new FormArray([]);
+            this.products.forEach((product) => {
+              this.locationForms.push(new FormControl('', Validators.required));
+            });
             this.pageSize = items.pageSize;
             this.length = items.totalRecords;
             this.pageIndex = items.pageNo;
@@ -135,27 +146,40 @@ export class ProductQueueGridComponent implements OnInit {
     }
   }
 
-  onAddToCart(productId: number, quantity: number) {
-    var request: AddProductToCart = {
-      productId: productId,
-      quantity: quantity,
-    };
-    this.service.addProductInCart(request).subscribe(
-      (item) => {
-        if (item) {
+  onAddToCart(
+    product: GetProductResponse,
+    quantity: number,
+    productIndex: number
+  ) {
+    if (product.isValid) {
+      var request: AddProductToCart = {
+        productId: product.id,
+        storeId: this.locationForms.at(productIndex).value,
+        quantity: quantity,
+      };
+      this.service.addProductInCart(request).subscribe(
+        (item) => {
+          if (item) {
+            this.snackBarService.openSnackBar(
+              'Product is added to cart',
+              SNACK_BAR_TYPE.Success
+            );
+          }
+        },
+        (error) => {
           this.snackBarService.openSnackBar(
-            'Product is added to cart',
-            SNACK_BAR_TYPE.Success
+            'Fail to add this product to cart',
+            SNACK_BAR_TYPE.Error
           );
         }
-      },
-      (error) => {
-        this.snackBarService.openSnackBar(
-          'Fail to add this product to cart',
-          SNACK_BAR_TYPE.Error
-        );
-      }
-    );
+      );
+      return;
+    }
+    this.locationForms.at(productIndex).markAllAsTouched();
+  }
+
+  onSelectLocation(prodcut: GetProductResponse): void {
+    prodcut.isValid = true;
   }
 
   formatProductUnit(unit: number): string {
@@ -175,5 +199,9 @@ export class ProductQueueGridComponent implements OnInit {
       style: 'currency',
       currency: 'VND',
     });
+  }
+
+  toControl(absCtrl: AbstractControl): FormControl {
+    return absCtrl as FormControl;
   }
 }
