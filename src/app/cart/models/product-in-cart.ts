@@ -11,4 +11,6 @@ export interface ProductInCart {
   categoryId: number;
   quantity: number;
   isSelected?: boolean;
+  storeName?: string;
+  storeId?: number;
 }

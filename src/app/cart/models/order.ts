@@ -15,5 +15,6 @@ export interface Order {
 
 export interface ProductForOrder {
   productId: number;
+  storeId: number;
   quantity: number;
 }

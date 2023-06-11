@@ -11,16 +11,21 @@
       fxLayoutAlign="space-between center"
       style="font-size: 16px"
     >
-      <span fxFlex="75">Total cost (2 products):</span>
-      <span fxFlex="25">15</span>
+      <span fxFlex="75">
+        Total cost ({{ selectedProductsCount }} products):
+      </span>
+      <span fxFlex="25" class="font-weight-bold text-danger">
+        {{ formatMoney(selectedProducsTotalPrice) }}
+      </span>
     </div>
     <div class="payment" fxFlex="20">
       <button
         type="button"
         class="btn btn-outline-secondary w-75"
-        (click)="onPayBtnClick()"
+        (click)="onCreateOrderBtnClick()"
+        [disabled]="isInvalidCreateOrder()"
       >
-        Pay
+        Create order
       </button>
     </div>
   </mat-toolbar>

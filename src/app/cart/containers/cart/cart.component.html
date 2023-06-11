@@ -22,60 +22,100 @@
   <div class="cart-content my-5">
     <div
       class="cart-item-container my-3 px-3 py-3"
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
+      fxLayout="column"
+      fxLayoutAlign="space-around space-around stretch"
       *ngFor="let product of products; let index = index"
     >
-      <mat-checkbox
-        (change)="onClickCheckbox($event, product)"
-        fxFlex="5"
-      ></mat-checkbox>
-      <div class="cart-item-product w-100 h-100" fxFlex="25" fxLayout="column">
-        <img class="h-100 w-75" [src]="product.img" alt="" fxFlex="90" />
-        <span class="text-truncate" fxFlex="10">{{ product.name }}</span>
+      <div class="cart-item-title py-3" fxLayout="row" fxFlex="10">
+        <mat-icon style="color: rgb(94, 53, 177)">store</mat-icon>
+        <span class="mx-2 txt-bold" style="color: rgb(94, 53, 177)">{{
+          product.storeName
+        }}</span>
       </div>
-      <div class="cart-item-price text-center" fxFlex="20">
-        <span>{{ formatMoney(product.price) }}</span>
-      </div>
+      <hr style="border-color: rgb(94, 53, 177); border-width: 3px" />
       <div
-        class="cart-item-quantity text-center"
-        fxFlex="15"
+        class="cart-item-content py-3"
+        fxFlex="90"
         fxLayout="row"
-        fxLayoutAlign="center center"
+        fxLayoutAlign="space-around center"
       >
-        <div class="input-group" fxFlex="80" fxLayout="row">
-          <button
-            class="btn btn-outline-secondary rounded-lg"
-            type="button"
-            id="buttonSubtract"
-            (click)="onMinusQuantityBtnClick(index)"
-            fxFlex="30"
-          >
-            -
-          </button>
-          <input
-            class="form-control text-center"
-            [id]="'quantitiesInput' + ' ' + index"
-            [value]="product.quantity"
-            min="1"
-            readonly
-            fxFlex="40"
-          />
-          <button
-            class="btn btn-outline-secondary rounded-lg"
-            type="button"
-            id="buttonAdd"
-            (click)="onAddQuantityBtnClick(index)"
-            fxFlex="30"
-          >
-            +
-          </button>
+        <mat-checkbox
+          (change)="onClickCheckbox($event, product)"
+          fxFlex="5"
+        ></mat-checkbox>
+        <div
+          class="cart-item-product w-100 h-100"
+          fxFlex="25"
+          fxLayout="column"
+        >
+          <img class="h-100 w-75" [src]="product.img" alt="" fxFlex="90" />
+          <span class="text-truncate" fxFlex="10">{{ product.name }}</span>
         </div>
-      </div>
-      <div class="cart-item-total-cost text-center" fxFlex="20">
-        <span>{{ formatMoney(product.price * product.quantity) }}</span>
+        <div class="cart-item-price text-center" fxFlex="20">
+          <span>Price: &nbsp;</span>
+          <span *ngIf="product.priceDecreases" style="color: red">
+            {{ formatMoney(product.priceDecreases) }} &nbsp;
+          </span>
+          <span
+            [ngClass]="
+              product.priceDecreases ? 'text-decoration-line-through' : ''
+            "
+            [ngStyle]="{ color: product.priceDecreases ? 'grey' : 'red' }"
+            >{{ formatMoney(product.price) }}
+          </span>
+        </div>
+        <div
+          class="cart-item-quantity text-center"
+          fxFlex="15"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <div class="input-group" fxFlex="80" fxLayout="row">
+            <button
+              class="btn btn-outline-secondary rounded-lg"
+              type="button"
+              id="buttonSubtract"
+              (click)="onMinusQuantityBtnClick(index)"
+              fxFlex="30"
+            >
+              -
+            </button>
+            <input
+              class="form-control text-center"
+              [id]="'quantitiesInput' + ' ' + index"
+              [value]="product.quantity"
+              min="1"
+              readonly
+              fxFlex="40"
+            />
+            <button
+              class="btn btn-outline-secondary rounded-lg"
+              type="button"
+              id="buttonAdd"
+              (click)="onAddQuantityBtnClick(index)"
+              fxFlex="30"
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <div class="cart-item-total-cost text-center" fxFlex="20">
+          <span class="font-weight-bold text-danger">
+            {{
+              formatMoney(
+                (product.priceDecreases != null && product.priceDecreases != 0
+                  ? product.priceDecreases
+                  : product.price) * product.quantity
+              )
+            }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
-  <app-cart-footer [products]="products"></app-cart-footer>
+  <app-cart-footer
+    [products]="products"
+    [selectedProductsCount]="selectedProductsCount"
+    [selectedProducsTotalPrice]="selectedProducsTotalPrice"
+  ></app-cart-footer>
 </div>

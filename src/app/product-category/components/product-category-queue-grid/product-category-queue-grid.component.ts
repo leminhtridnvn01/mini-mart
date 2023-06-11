@@ -69,7 +69,6 @@ export class ProductCategoryQueueGridComponent implements OnInit {
       categorySelected: categoryId,
       grid: 'ProductCategoryQueueGrid',
     });
-    console.log('da sent');
   }
 
   private transformArray(inputArray: any[]): any[][] {

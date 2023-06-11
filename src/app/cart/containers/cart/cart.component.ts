@@ -5,6 +5,8 @@ import { ProductInCart } from '../../models/product-in-cart';
 import { ProductCategoryService } from 'src/app/product-category/services';
 import { AddProductToCart } from 'src/app/product-category/models/add-product-to-cart';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { CommonCommunicationService } from 'src/app/common/services';
+import { GridAction } from 'src/app/common/enums/grid-action';
 
 @Component({
   selector: 'app-cart',
@@ -13,9 +15,12 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class CartComponent implements OnInit {
   products: ProductInCart[];
+  selectedProductsCount = 0;
+  selectedProducsTotalPrice = 0;
   constructor(
     private cartService: CartService,
-    private productService: ProductCategoryService
+    private productService: ProductCategoryService,
+    private communicator: CommonCommunicationService
   ) {}
   ngOnInit(): void {
     this.initProductInCart();
@@ -47,6 +52,7 @@ export class CartComponent implements OnInit {
     var request: AddProductToCart = {
       quantity: -1,
       productId: this.products[index]?.id,
+      storeId: this.products[index]?.storeId,
     };
 
     this.productService.addProductInCart(request).subscribe(
@@ -59,6 +65,7 @@ export class CartComponent implements OnInit {
         //do something as Pop-up, alert...
       }
     );
+    this.refreshSelectedProductInfo();
   }
 
   onAddQuantityBtnClick(index: number) {
@@ -71,6 +78,7 @@ export class CartComponent implements OnInit {
     var request: AddProductToCart = {
       quantity: 1,
       productId: this.products[index]?.id,
+      storeId: this.products[index]?.storeId,
     };
 
     ///??????????????
@@ -84,6 +92,7 @@ export class CartComponent implements OnInit {
         //do something as Pop-up, alert...
       }
     );
+    this.refreshSelectedProductInfo();
   }
 
   onClickCheckbox(event: MatCheckboxChange, product: ProductInCart) {
@@ -92,5 +101,20 @@ export class CartComponent implements OnInit {
     } else {
       product.isSelected = false;
     }
+    this.refreshSelectedProductInfo();
+  }
+
+  refreshSelectedProductInfo(): void {
+    var selectedProducts = this.products.filter((x) => x.isSelected);
+    this.selectedProductsCount = selectedProducts.length;
+    this.selectedProducsTotalPrice = selectedProducts
+      .map(
+        (x) =>
+          x.quantity *
+          (x.priceDecreases && x.priceDecreases != 0
+            ? x.priceDecreases
+            : x.price)
+      )
+      .reduce((pre, cur) => pre + cur, 0);
   }
 }

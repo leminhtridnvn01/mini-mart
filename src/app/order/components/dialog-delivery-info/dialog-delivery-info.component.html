@@ -1,0 +1,78 @@
+<div mat-dialog-content>
+  <h3 mat-dialog-title class="col-12">Delevery Infomation</h3>
+  <div class="dialog-content my-4 mx-4">
+    <div class="name my-3" fxLayout="row" fxLayoutAlign="space-between center">
+      <span style="font-size: 20px" fxFlex="30">Name: </span>
+      <mat-form-field fxFlex="70">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" [formControl]="useNameFormControl" />
+        <mat-error *ngIf="useNameFormControl.hasError('maxLength')">
+          Your name is too long
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div
+      class="phoneNumber my-3"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <span style="font-size: 20px" fxFlex="30">Phone Number: </span>
+      <mat-form-field fxFlex="70">
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          placeholder="Phone Number"
+          [formControl]="phoneNumberFormControl"
+          required
+        />
+        <mat-error *ngIf="phoneNumberFormControl.hasError('required')">
+          Please enter your phone number
+        </mat-error>
+        <mat-error
+          *ngIf="
+            phoneNumberFormControl.hasError('minlength') ||
+            phoneNumberFormControl.hasError('maxlength')
+          "
+        >
+          Invalid phone number
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div
+      class="address my-3"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <span style="font-size: 20px" fxFlex="30">Address: </span>
+      <mat-form-field fxFlex="70">
+        <mat-label>Address</mat-label>
+        <input
+          matInput
+          placeholder="Address"
+          [formControl]="addressFormControl"
+        />
+        <mat-error *ngIf="addressFormControl.hasError('required')">
+          Please enter your address
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="pb-3 pr-4" align="end">
+  <app-spinner-button
+    mat-raised-button
+    [isLoading]="isLoading"
+    class="mx-2"
+    (buttonClick)="onSaveBtnClick()"
+    [isDisable]="!isValidRequest()"
+  >
+    Save
+  </app-spinner-button>
+  <button
+    mat-stroked-button
+    class="btn btn-outline-secondary mx-2"
+    mat-dialog-close
+  >
+    Cancel
+  </button>
+</div>
