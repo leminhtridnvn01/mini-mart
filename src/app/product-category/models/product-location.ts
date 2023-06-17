@@ -12,5 +12,7 @@ export interface ProductStore {
   adddress?: string;
   productId?: number;
   productName?: string;
+  price?: number;
+  priceDecreases?: number;
   quantity?: number;
 }

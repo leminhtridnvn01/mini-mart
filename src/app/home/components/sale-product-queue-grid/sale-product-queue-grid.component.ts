@@ -1,47 +1,45 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ProductCategoryService } from '../../services';
-import {
-  GetProductRequest,
-  GetProductResponse,
-} from '../../models/get-product';
-import { SubSink } from 'src/app/shared/models';
-import { filter } from 'rxjs';
-import { GridAction } from 'src/app/common/enums/grid-action';
-import { PageEvent } from '@angular/material/paginator';
-import { LK_ProductUnit } from '../../enums/product-unit';
-import { AddProductToCart } from '../../models/add-product-to-cart';
-import { CommonCommunicationService } from 'src/app/common/services';
-import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
-import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
+import { Component, Input } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
   FormControl,
   Validators,
 } from '@angular/forms';
-import { ProductStore } from '../../models/product-location';
-import { MatOptionSelectionChange } from '@angular/material/core';
+import { PageEvent } from '@angular/material/paginator';
+import { LK_ProductUnit } from 'src/app/product-category/enums/product-unit';
+import { AddProductToCart } from 'src/app/product-category/models/add-product-to-cart';
+import {
+  GetProductRequest,
+  GetProductResponse,
+  GetSaleProductResponse,
+} from 'src/app/product-category/models/get-product';
+import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
+import { HomeService } from '../../services';
+import { SubSink } from 'src/app/shared/models';
+import { CommonCommunicationService } from 'src/app/common/services';
+import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
+import { filter } from 'rxjs';
+import { GridAction } from 'src/app/common/enums/grid-action';
 
 @Component({
-  selector: 'app-product-queue-grid',
-  templateUrl: './product-queue-grid.component.html',
-  styleUrls: ['./product-queue-grid.component.css'],
+  selector: 'app-sale-product-queue-grid',
+  templateUrl: './sale-product-queue-grid.component.html',
+  styleUrls: ['./sale-product-queue-grid.component.css'],
 })
-export class ProductQueueGridComponent implements OnInit {
+export class SaleProductQueueGridComponent {
   pageSize: number = 10;
   length: number = 0;
   pageIndex: number = 0;
   categoryIdSelected: number = 0;
-  products: GetProductResponse[];
+  products: GetSaleProductResponse[];
   isLoading: boolean = false;
-  locationForms: FormArray;
 
   private subscriptions = new SubSink();
 
   @Input() selectedCategory: number;
 
   constructor(
-    private service: ProductCategoryService,
+    private homeService: HomeService,
     private communicator: CommonCommunicationService,
     private snackBarService: SnackBarService
   ) {}
@@ -56,21 +54,16 @@ export class ProductQueueGridComponent implements OnInit {
         filter(
           (action) =>
             action?.action === GridAction.GridItemClick &&
-            (action?.payload?.grid === 'ProductCategoryQueueGrid' ||
-              action?.payload?.grid === 'ProductSearchQueueGrid')
+            action?.payload?.grid === 'SaleProductCategoryQueueGrid'
         )
       )
       .subscribe((action) => {
         if (action?.payload?.grid) {
           switch (action.payload?.grid) {
-            case 'ProductCategoryQueueGrid':
+            case 'SaleProductCategoryQueueGrid':
               this.categoryIdSelected = action.payload?.categorySelected;
               this.pageIndex = 0;
               this.refreshProductItems();
-              break;
-            case 'ProductSearchQueueGrid':
-              this.pageIndex = 0;
-              this.searchProductItems(action.payload?.search);
               break;
             default:
               break;
@@ -86,7 +79,7 @@ export class ProductQueueGridComponent implements OnInit {
       pageSize: this.pageSize,
     };
     this.isLoading = true;
-    this.service.searchProducts(request).subscribe(
+    this.homeService.searchSaleProducts(request).subscribe(
       (items) => {
         if (items) {
           setTimeout(() => {
@@ -112,22 +105,17 @@ export class ProductQueueGridComponent implements OnInit {
     }
   ) {
     this.isLoading = true;
-    this.service.getProducts(request).subscribe(
+    this.homeService.getSaleProducts(request).subscribe(
       (items) => {
         if (items) {
           setTimeout(() => {
             this.products = items.data;
-            this.locationForms = new FormArray([]);
-            this.products.forEach((product) => {
-              product.currentStorePriceDecreases = product.priceDecreases;
-              this.locationForms.push(new FormControl('', Validators.required));
-            });
             this.pageSize = items.pageSize;
             this.length = items.totalRecords;
             this.pageIndex = items.pageNo;
-            this.isLoading = false;
           }, 500);
         }
+        this.isLoading = false;
       },
       (error) => {
         this.isLoading = false;
@@ -150,48 +138,35 @@ export class ProductQueueGridComponent implements OnInit {
   }
 
   onAddToCart(
-    product: GetProductResponse,
+    product: GetSaleProductResponse,
     quantity: number,
     productIndex: number
   ) {
-    if (product.isValid) {
-      var request: AddProductToCart = {
-        productId: product.id,
-        storeId: this.locationForms.at(productIndex).value,
-        quantity: quantity,
-      };
-      this.service.addProductInCart(request).subscribe(
-        (item) => {
-          if (item) {
-            this.snackBarService.openSnackBar(
-              'Product is added to cart',
-              SNACK_BAR_TYPE.Success
-            );
-          }
-        },
-        (error) => {
+    var request: AddProductToCart = {
+      productId: product.id,
+      storeId: product.storeId,
+      quantity: quantity,
+    };
+    this.homeService.addProductInCart(request).subscribe(
+      (item) => {
+        if (item) {
           this.snackBarService.openSnackBar(
-            'Fail to add this product to cart',
-            SNACK_BAR_TYPE.Error
+            'Product is added to cart',
+            SNACK_BAR_TYPE.Success
           );
         }
-      );
-      return;
-    }
-    this.locationForms.at(productIndex).markAllAsTouched();
+      },
+      (error) => {
+        this.snackBarService.openSnackBar(
+          'Fail to add this product to cart',
+          SNACK_BAR_TYPE.Error
+        );
+      }
+    );
   }
 
-  onSelectLocation(
-    event: MatOptionSelectionChange,
-    prodcut: GetProductResponse,
-    store: ProductStore
-  ): void {
-    if (event.isUserInput) {
-      prodcut.isValid = true;
-      prodcut.currentStorePriceDecreases = store.priceDecreases
-        ? store.priceDecreases
-        : prodcut.priceDecreases;
-    }
+  onSelectLocation(prodcut: GetProductResponse): void {
+    prodcut.isValid = true;
   }
 
   formatProductUnit(unit: number): string {
