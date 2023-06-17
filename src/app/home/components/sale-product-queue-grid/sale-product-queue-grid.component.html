@@ -1,6 +1,8 @@
 <div class="product-queue-grid-container my-5 px-4 py-4">
   <div class="product-queue-title my-3">
-    <p class="text-left font-weight-bold" style="font-size: 24px">Products</p>
+    <p class="text-left font-weight-bold" style="font-size: 24px">
+      Sale Products
+    </p>
   </div>
   <mat-spinner *ngIf="isLoading"> </mat-spinner>
   <div *ngIf="!isLoading" class="product-queue-content p-3 row row-cols-5 gy-5">
@@ -9,9 +11,22 @@
       *ngFor="let product of products; let productIndex = index"
     >
       <div class="card" style="width: 16rem; height: 32rem" fxLayout="column">
+        <div class="cart-item-title py-3 px-3" fxLayout="row" fxFlex="9">
+          <mat-icon style="color: rgb(94, 53, 177)">store</mat-icon>
+          <span class="mx-2 txt-bold" style="color: rgb(94, 53, 177)">{{
+            product.storeName
+          }}</span>
+        </div>
+
+        <hr
+          class="mx-2"
+          style="border-color: rgb(94, 53, 177); border-width: 3px"
+          fxFlex="1"
+        />
+
         <a
           [routerLink]="product.categoryId + '/product/' + product.id"
-          fxFlex="45"
+          fxFlex="40"
           fxLayout="column"
         >
           <img
@@ -23,7 +38,7 @@
           />
         </a>
 
-        <div class="card-body" fxFlex="55" fxLayout="column">
+        <div class="card-body" fxFlex="50" fxLayout="column">
           <p
             class="card-text text-truncate"
             style="font-size: 16px"
@@ -37,41 +52,17 @@
           </p>
           <p class="card-text" style="font-size: 12px" fxFlex="20">
             <span>Price: &nbsp;</span>
-            <span *ngIf="product.currentStorePriceDecreases" style="color: red">
-              {{ formatMoney(product.currentStorePriceDecreases) }} &nbsp;
+            <span *ngIf="product.priceDecreases" style="color: red">
+              {{ formatMoney(product.priceDecreases) }} &nbsp;
             </span>
             <span
               [ngClass]="
-                product.currentStorePriceDecreases
-                  ? 'text-decoration-line-through'
-                  : ''
+                product.priceDecreases ? 'text-decoration-line-through' : ''
               "
-              [ngStyle]="{
-                color: product.currentStorePriceDecreases ? 'grey' : 'red'
-              }"
+              [ngStyle]="{ color: product.priceDecreases ? 'grey' : 'red' }"
               >{{ formatMoney(product.price) }}</span
             >
           </p>
-          <mat-form-field fxFlex="30">
-            <mat-label>Select Store</mat-label>
-            <mat-select
-              [formControl]="toControl(locationForms.at(productIndex))"
-            >
-              <mat-option>-- None --</mat-option>
-              <mat-optgroup
-                *ngFor="let location of product.locations"
-                [label]="location.cityName"
-              >
-                <mat-option
-                  *ngFor="let store of location.stores"
-                  [value]="store.storeId"
-                  (onSelectionChange)="onSelectLocation($event, product, store)"
-                >
-                  {{ store.storeName }}
-                </mat-option>
-              </mat-optgroup>
-            </mat-select>
-          </mat-form-field>
           <a
             class="btn btn-primary"
             fxFlex="25"

@@ -69,19 +69,6 @@ export class PaymentSuccessComponent implements OnInit {
           console.log('co loi roi kia');
         }
       );
-
-    console.log(this.vnp_Amount);
-    console.log(this.vnp_BankCode);
-    console.log(this.vnp_BankTranNo);
-    console.log(this.vnp_CardType);
-    console.log(this.vnp_OrderInfo);
-    console.log(this.vnp_PayDate);
-    console.log(this.vnp_ResponseCode);
-    console.log(this.vnp_TmnCode);
-    console.log(this.vnp_TransactionNo);
-    console.log(this.vnp_TransactionStatus);
-    console.log(this.vnp_TxnRef);
-    console.log(this.vnp_SecureHash);
   }
 
   ngOnInit(): void {}

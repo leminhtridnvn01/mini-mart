@@ -13,6 +13,7 @@ export interface GetProductResponse {
   categoryId?: number;
   locations: ProductLocation[];
   isValid: boolean;
+  currentStorePriceDecreases?: number;
 }
 
 // export interface ProductStoreResponse {
@@ -29,4 +30,10 @@ export interface GetProductResponse {
 export interface GetProductRequest extends IPagingRequest {
   categoryId?: number;
   search?: string;
+  isSale?: boolean;
+}
+
+export interface GetSaleProductResponse extends GetProductResponse {
+  storeId?: number;
+  storeName?: string;
 }
