@@ -37,11 +37,11 @@ mat-spinner{
 .carousel-item-next.carousel-item-start {
   display: flex!important;
   justify-content: space-between!important;
-  transform: translateX(0);
+  transform: translateX(10%);
 }
 
 .carousel-item-prev.carousel-item-end {
   display: flex!important;
   justify-content: space-between!important;
-  transform: translateX(0);
+  transform: translateX(-10%);
 }
