@@ -34,7 +34,7 @@ mat-spinner{
   --mat-mdc-fab-color: black;
 }
 
-.carousel-item-next.carousel-item-start {
+/* .carousel-item-next.carousel-item-start {
   display: flex!important;
   justify-content: space-between!important;
   transform: translateX(0);
@@ -44,4 +44,4 @@ mat-spinner{
   display: flex!important;
   justify-content: space-between!important;
   transform: translateX(0);
-}
+} */

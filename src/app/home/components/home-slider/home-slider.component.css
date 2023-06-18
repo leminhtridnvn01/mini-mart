@@ -35,3 +35,15 @@
 
 .option-container{
 }
+
+.carousel-item-next.carousel-item-start {
+  display: flex!important;
+  justify-content: space-between!important;
+  transform: translateX(0);
+}
+
+.carousel-item-prev.carousel-item-end {
+  display: flex!important;
+  justify-content: space-between!important;
+  transform: translateX(0);
+}
