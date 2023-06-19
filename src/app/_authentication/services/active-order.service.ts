@@ -1,7 +1,7 @@
 import { UserToken } from './../models/user-token';
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ActiveService } from './active.service';
@@ -12,7 +12,8 @@ import { ActiveService } from './active.service';
 export class ActiveOrderService implements CanActivate {
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) {}
 
   canActivate(): boolean {
@@ -45,7 +46,8 @@ export class ActiveOrderService implements CanActivate {
   }
 
   redirectToLogin() {
-    document.location.href = 'https://google.com';
+    this.authService.updateLoginState(true);
+    this.router.navigate(['login']);
   }
 
   getRoles() {

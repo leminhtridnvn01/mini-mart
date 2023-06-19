@@ -1,5 +1,6 @@
 <div fxLayout="column" fxFlexFill>
   <mat-toolbar
+    *ngIf="!isLogin"
     class="navbar-color mat-elevation-z8 p-0"
     fxLayout="row"
     fxLayoutAlign="start stretch"
@@ -20,7 +21,7 @@
       >
         <button
           mat-raised-button
-          (click)="drawer.toggle()"
+          (click)="drawer?.toggle()"
           fxFlex="15"
           class="no-border header-button border h-100"
         >
@@ -104,7 +105,7 @@
     style="background-color: #f5f5f5"
   >
     <mat-drawer #drawer class="btn-page-container">
-      <div fxLayout="column" class="" fxLayoutGap="5px">
+      <div *ngIf="!isLogin" fxLayout="column" class="" fxLayoutGap="5px">
         <button
           mat-raised-button
           routerLink="/"

@@ -9,7 +9,7 @@ export class LogoComponent implements OnInit {
   color = 'rgb(94, 53, 177)';
   constructor() {}
   ngOnInit(): void {
-    const myDiv = document.getElementsByClassName('container')[0];
+    const myDiv = document.getElementsByClassName('app-logo-container')[0];
     const self = this;
     myDiv?.addEventListener('mouseenter', function () {
       self.color = 'white';
