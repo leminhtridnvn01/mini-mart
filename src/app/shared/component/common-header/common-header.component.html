@@ -5,24 +5,43 @@
     fxLayoutAlign="start stretch"
     style="z-index: 2; height: 80px"
   >
-    <div class="toolbar-content" fxLayoutGap="10px">
-      <button
-        mat-raised-button
-        (click)="drawer.toggle()"
-        fxFlex="5"
-        class="no-border header-button border"
+    <div
+      class="toolbar-content"
+      fxLayoutGap="10px"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <div
+        class="logo-container h-100"
+        fxLayoutGap="10px"
+        fxFlex="25"
+        fxLayout="row"
+        fxLayoutAlign="start stretch"
       >
-        <mat-icon class="item-center item-font-size-42">menu</mat-icon>
-      </button>
-      <button
-        mat-raised-button
-        fxFlex="10"
-        class="no-border btn-logo header-button"
+        <button
+          mat-raised-button
+          (click)="drawer.toggle()"
+          fxFlex="15"
+          class="no-border header-button border h-100"
+        >
+          <mat-icon class="item-center item-font-size-42">menu</mat-icon>
+        </button>
+        <button
+          mat-raised-button
+          fxFlex="35"
+          class="no-border btn-logo header-button h-100"
+        >
+          <app-logo></app-logo>
+        </button>
+      </div>
+
+      <div
+        class="search-bar-container h-100"
+        fxFlex="50"
+        fxLayout="row"
+        fxLayoutAlign="center stretch"
       >
-        <app-logo></app-logo>
-      </button>
-      <div class="search-bar-container" fxFlex="35">
-        <div class="d-flex h-100">
+        <div class="d-flex h-100" fxFlex="75">
           <input
             id="search-input"
             class="form-control me-2 btn-search"
@@ -39,6 +58,40 @@
             <mat-icon class="mr-2 item-center txt-bold">search</mat-icon>
           </button>
         </div>
+      </div>
+
+      <div
+        class="user-container"
+        fxFlex="25"
+        fxLayout="row"
+        fxLayoutAlign="end stretch"
+        *ngIf="authService.currentUser$ | async"
+      >
+        <mat-icon
+          class="mr-2 txt-bold h-100"
+          style="font-size: 32px"
+          fxFlex="10"
+          >account_circle</mat-icon
+        >
+        <span fxFlex="30">
+          {{ (authService.currentUser$ | async)?.userName }}
+        </span>
+      </div>
+
+      <div
+        class="user-container"
+        fxFlex="25"
+        fxLayout="row"
+        fxLayoutAlign="end stretch"
+        *ngIf="!(authService.currentUser$ | async)"
+      >
+        <mat-icon
+          class="mr-2 txt-bold h-100"
+          style="font-size: 32px"
+          fxFlex="10"
+          >login</mat-icon
+        >
+        <span fxFlex="30"> Login </span>
       </div>
       <span fxFlex></span>
     </div>

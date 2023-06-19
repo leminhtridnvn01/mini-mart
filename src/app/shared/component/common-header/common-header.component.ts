@@ -7,6 +7,7 @@ import { GridAction } from '../../../common/enums/grid-action';
 import { SubSink } from '../../models';
 import { filter } from 'rxjs';
 import { CommonCommunicationService } from 'src/app/common/services';
+import { AuthenticationService } from 'src/app/_authentication/services';
 
 @Component({
   selector: 'app-common-header',
@@ -25,7 +26,8 @@ export class CommonHeaderComponent {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private communicator: CommonCommunicationService
+    private communicator: CommonCommunicationService,
+    public authService: AuthenticationService
   ) {}
 
   getFloatLabelValue(): FloatLabelType {

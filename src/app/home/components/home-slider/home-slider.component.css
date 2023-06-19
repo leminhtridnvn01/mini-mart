@@ -36,3 +36,10 @@
 .option-container{
 }
 
+.carousel-item-next.carousel-item-start {
+  transform: translateX(0)!important;
+}
+
+.carousel-item-prev.carousel-item-end {
+  transform: translateX(0)!important;
+}
