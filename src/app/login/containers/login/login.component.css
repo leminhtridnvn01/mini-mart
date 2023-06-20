@@ -1,24 +1,20 @@
 /* .gradient-custom-2 { */
     /* fallback for old browsers */
     /* background: #fccb90; */
-    
+
     /* Chrome 10-25, Safari 5.1-6 */
     /* background: -webkit-linear-gradient(to right, rgb(115, 59, 226), rgb(94, 53, 177), rgb(165, 137, 222), #b44593); */
-    
+
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     /* background: linear-gradient(to right, rgb(115, 59, 226), rgb(94, 53, 177), rgb(165, 137, 222),rgb(75, 54, 116)); */
     /* } */
-    
-    @media (min-width: 768px) {
-    .gradient-form {
-    height: 100vh !important;
-    }
-    }
-    @media (min-width: 769px) {
+
+
+
     .gradient-custom-2 {
         border-radius: 18px;
     }
-}
+
 
 .form-label{
     font-size: 18px;
@@ -31,3 +27,6 @@
               0px 3px 10px 0px rgba(161, 146, 146, 0.12)!important;
 }
 
+.logo-container:hover .change-color{
+  color: rgb(94, 53, 177)!important;
+}
