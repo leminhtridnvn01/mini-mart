@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ActiveAllService } from './_authentication/services/active-all.service';
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
       import('../app/home/home.module').then((m) => m.HomeModule),
+    canActivate: [ActiveAllService],
   },
   {
     path: 'products',
@@ -23,6 +25,11 @@ const routes: Routes = [
     path: 'order',
     loadChildren: () =>
       import('../app/order/order.module').then((m) => m.OrderyModule),
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('../app/login/login.module').then((m) => m.LoginModule),
   },
 ];
 

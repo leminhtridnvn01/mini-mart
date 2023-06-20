@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OrderComponent } from './containers/order/order.component';
 import { PaymentSuccessComponent } from './components';
+import { ActiveOrderService } from '../_authentication/services';
 
 const routes: Routes = [
   {
     path: '',
     component: OrderComponent,
+    canActivate: [ActiveOrderService],
   },
   {
     path: 'payment-success',

@@ -1,0 +1,91 @@
+<section class="h-100 gradient-form" style="background-color: #eee">
+  <div class="logo-container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-10 h-100">
+        <div class="card rounded-3 tri text-black h-100">
+          <div class="row g-0 h-100" fxLayout="row">
+            <div class="col-lg-6 h-100" fxFlex="50">
+              <div
+                class="card-body p-md-5 mx-md-4 h-100"
+                fxLayout="column"
+                fxLayoutAlign="space-around stretch"
+              >
+                <div
+                  class="text-center"
+                  style="color: rgb(94, 53, 177) !important"
+                  fxFlex="30"
+                >
+                  <app-logo></app-logo>
+                  <br />
+                </div>
+
+                <form fxFlex="70">
+                  <div class="form-outline mb-4 my-2">
+                    <h1>Sign in</h1>
+                    <label class="form-label" for="form2Example11"
+                      >Username</label
+                    >
+                    <input
+                      id="form2Example11"
+                      class="form-control"
+                      type="email"
+                      placeholder="Username"
+                      aria-label="Username"
+                      (keyup.enter)="onLoginBtnClick()"
+                    />
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="form2Example22"
+                      >Password
+                    </label>
+                    <input
+                      type="password"
+                      id="form2Example22"
+                      class="form-control"
+                      placeholder="Password"
+                      aria-label="Password"
+                      (keyup.enter)="onLoginBtnClick()"
+                    />
+                  </div>
+
+                  <div class="text-center pt-1 mb-5 pb-1">
+                    <button
+                      class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                      type="button"
+                      (click)="onLoginBtnClick()"
+                    >
+                      Log in
+                    </button>
+                    <a class="text-muted" href="#!">Forgot password?</a>
+                  </div>
+
+                  <div
+                    class="d-flex align-items-center justify-content-center pb-4"
+                  >
+                    <p class="mb-0 me-2">Don't have an account?</p>
+                    <button type="button" class="btn btn-outline-danger">
+                      Create new
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div
+              class="col-lg-6 d-flex align-items-center img-login h-100"
+              fxFlex="50"
+              fxLayout="row"
+            >
+              <img
+                class="h-100"
+                src="https://img.freepik.com/free-vector/shopping-payment-online-process-computer-smartphone-tablet_1150-65523.jpg?t=st=1687194667~exp=1687195267~hmac=7ef76ddcd2dfe3379e7701cd86d1612d4c91c1fa8a9a92916c3f892ae4b82bb0"
+                alt=""
+                fxFlex="100"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

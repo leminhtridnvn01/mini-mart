@@ -1,3 +1,3 @@
 export const environment = {
-  webUrl: 'https://ddmart.loca.lt/',
+  webUrl: 'https://ddmart.loca.lt',
 };
