@@ -62,26 +62,6 @@
               >{{ formatMoney(product.price ?? 0) }}</span
             >
           </p>
-          <!-- <mat-form-field fxFlex="30">
-            <mat-label>Select Store</mat-label>
-            <mat-select
-              [formControl]="toControl(locationForms.at(productIndex))"
-            >
-              <mat-option>-- None --</mat-option>
-              <mat-optgroup
-                *ngFor="let location of product.locations"
-                [label]="location.cityName"
-              >
-                <mat-option
-                  *ngFor="let store of location.stores"
-                  [value]="store.storeId"
-                  (onSelectionChange)="onSelectLocation(product)"
-                >
-                  {{ store.storeName }}
-                </mat-option>
-              </mat-optgroup>
-            </mat-select>
-          </mat-form-field> -->
           <a
             class="btn btn-primary"
             fxFlex="25"

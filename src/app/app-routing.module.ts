@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActiveAllService } from './_authentication/services/active-all.service';
+import { ActiveManagerService } from './_authentication/services/active-manager-service';
 
 const routes: Routes = [
   {
@@ -30,6 +31,14 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('../app/login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: 'product-management',
+    loadChildren: () =>
+      import(
+        '../app/managers/product-management/product-management.module'
+      ).then((m) => m.ProductManagementModule),
+    canActivate: [ActiveManagerService],
   },
 ];
 

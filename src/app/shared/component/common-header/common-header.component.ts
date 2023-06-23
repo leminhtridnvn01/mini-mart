@@ -23,6 +23,7 @@ export class CommonHeaderComponent {
     floatLabel: this.floatLabelControl,
   });
   isLogin = true;
+  isShowMenuBtn = true;
 
   private subscriptions = new SubSink();
 
@@ -57,5 +58,9 @@ export class CommonHeaderComponent {
         search: input.value,
       });
     }
+  }
+
+  onOpenedChange(event: boolean) {
+    this.isShowMenuBtn = !event;
   }
 }

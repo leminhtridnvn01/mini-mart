@@ -20,18 +20,14 @@
         fxLayoutAlign="start stretch"
       >
         <button
+          *ngIf="isShowMenuBtn"
           mat-raised-button
           (click)="drawer?.toggle()"
-          fxFlex="15"
-          class="no-border header-button border h-100"
+          class="no-border btn-menu border h-100"
         >
           <mat-icon class="item-center item-font-size-42">menu</mat-icon>
         </button>
-        <button
-          mat-raised-button
-          fxFlex="35"
-          class="no-border btn-logo header-button h-100"
-        >
+        <button mat-raised-button fxFlex="35" class="no-border btn-logo h-100">
           <app-logo></app-logo>
         </button>
       </div>
@@ -104,7 +100,11 @@
     class="background"
     style="background-color: #f5f5f5"
   >
-    <mat-drawer #drawer class="btn-page-container">
+    <mat-drawer
+      #drawer
+      class="btn-page-container"
+      (openedChange)="onOpenedChange($event)"
+    >
       <div *ngIf="!isLogin" fxLayout="column" class="" fxLayoutGap="5px">
         <button
           mat-raised-button
@@ -162,6 +162,23 @@
           </span>
         </button>
         <mat-divider></mat-divider>
+        <button
+          *ngIf="(authService.isClient$ | async) == false"
+          mat-raised-button
+          routerLink="/product-management"
+          routerLinkActive="selected no-border"
+          fxFlex="10"
+          fxLayoutAlign="start"
+          class="no-border btn btn-page"
+        >
+          <span fxLayoutAlign="start">
+            <mat-icon class="mr-2 item-center"> list_alt</mat-icon>
+            <span class="item-center txt-bold"> Product Manager </span>
+          </span>
+        </button>
+        <mat-divider
+          *ngIf="(authService.isClient$ | async) == false"
+        ></mat-divider>
       </div>
     </mat-drawer>
 
