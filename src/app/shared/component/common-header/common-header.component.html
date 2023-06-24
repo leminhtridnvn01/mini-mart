@@ -76,19 +76,27 @@
       </div>
 
       <div
+        *ngIf="!(authService.currentUser$ | async)"
         class="user-container"
         fxFlex="25"
         fxLayout="row"
         fxLayoutAlign="end stretch"
-        *ngIf="!(authService.currentUser$ | async)"
       >
-        <mat-icon
-          class="mr-2 txt-bold h-100"
-          style="font-size: 32px"
-          fxFlex="10"
-          >login</mat-icon
+        <a
+          routerLink="/login"
+          style="text-decoration: none; color: rgb(94, 53, 177)"
+          fxFlex="40"
+          fxLayout="row"
         >
-        <span fxFlex="30"> Login </span>
+          <mat-icon
+            class="mr-2 txt-bold h-100"
+            style="font-size: 32px"
+            fxFlex="30"
+          >
+            login
+          </mat-icon>
+          <span fxFlex="70"> Login </span>
+        </a>
       </div>
       <span fxFlex></span>
     </div>
@@ -135,6 +143,7 @@
         </button>
         <mat-divider></mat-divider>
         <button
+          *ngIf="(authService.isClient$ | async) == true"
           mat-raised-button
           routerLink="/cart"
           routerLinkActive="selected no-border"
@@ -147,8 +156,11 @@
             <span class="item-center txt-bold"> Cart </span>
           </span>
         </button>
-        <mat-divider></mat-divider>
+        <mat-divider
+          *ngIf="(authService.isClient$ | async) == true"
+        ></mat-divider>
         <button
+          *ngIf="(authService.isClient$ | async) == true"
           mat-raised-button
           routerLink="/order"
           routerLinkActive="selected no-border"
@@ -161,7 +173,9 @@
             <span class="item-center txt-bold"> Order </span>
           </span>
         </button>
-        <mat-divider></mat-divider>
+        <mat-divider
+          *ngIf="(authService.isClient$ | async) == true"
+        ></mat-divider>
         <button
           *ngIf="(authService.isClient$ | async) == false"
           mat-raised-button
@@ -174,6 +188,40 @@
           <span fxLayoutAlign="start">
             <mat-icon class="mr-2 item-center"> list_alt</mat-icon>
             <span class="item-center txt-bold"> Product Manager </span>
+          </span>
+        </button>
+        <mat-divider
+          *ngIf="(authService.isClient$ | async) == false"
+        ></mat-divider>
+        <button
+          *ngIf="(authService.isClient$ | async) == false"
+          mat-raised-button
+          routerLink="/revenue-management"
+          routerLinkActive="selected no-border"
+          fxFlex="10"
+          fxLayoutAlign="start"
+          class="no-border btn btn-page"
+        >
+          <span fxLayoutAlign="start">
+            <mat-icon class="mr-2 item-center"> list_alt</mat-icon>
+            <span class="item-center txt-bold"> Revenue Manager </span>
+          </span>
+        </button>
+        <mat-divider
+          *ngIf="(authService.isClient$ | async) == false"
+        ></mat-divider>
+        <button
+          *ngIf="(authService.isClient$ | async) == false"
+          mat-raised-button
+          routerLink="/order-management"
+          routerLinkActive="selected no-border"
+          fxFlex="10"
+          fxLayoutAlign="start"
+          class="no-border btn btn-page"
+        >
+          <span fxLayoutAlign="start">
+            <mat-icon class="mr-2 item-center"> list_alt</mat-icon>
+            <span class="item-center txt-bold"> Order Manager </span>
           </span>
         </button>
         <mat-divider

@@ -55,6 +55,8 @@ export class ProductCategoryQueueGridComponent implements OnInit {
             this.pages = this.transformArray(result.data);
             this.isLoading = false;
           }, 500);
+        } else {
+          this.isLoading = false;
         }
       },
       (error) => {

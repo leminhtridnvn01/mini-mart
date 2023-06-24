@@ -2,6 +2,7 @@ import { ProductInCart } from 'src/app/cart/models/product-in-cart';
 
 export interface Order {
   orderId: number;
+  storeId: number;
   storeName: string;
   orderStatus: number;
   totalPrice: number;

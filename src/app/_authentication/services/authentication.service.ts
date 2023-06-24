@@ -57,14 +57,16 @@ export class AuthenticationService {
 
   updateCurrentUser(user: UserToken) {
     this.currentUser.next(user);
-    this.updateRoles(user.roles);
+    this.updateRoles(user?.roles);
   }
 
   updateRoles(roles: string) {
-    if (this.isClientRole(roles)) {
-      this.isClient.next(true);
-    } else {
-      this.isClient.next(false);
+    if (roles) {
+      if (this.isClientRole(roles)) {
+        this.isClient.next(true);
+      } else {
+        this.isClient.next(false);
+      }
     }
   }
 

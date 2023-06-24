@@ -73,7 +73,7 @@ import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
     MatPaginatorModule,
     MatRippleModule,
     MatCheckboxModule,
-
+    MatNativeDateModule,
     MaterialTimePickerModule,
   ],
   exports: [
@@ -109,7 +109,7 @@ import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
     MatPaginatorModule,
     MatRippleModule,
     MatCheckboxModule,
-
+    MatNativeDateModule,
     MaterialTimePickerModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'en-US' }],

@@ -65,9 +65,11 @@ export class HomeSaleProductQueueGridComponent implements OnInit {
             this.pageSize = items.pageSize;
             this.length = items.totalRecords;
             this.pageIndex = items.pageNo;
+            this.isLoading = false;
           }, 500);
+        } else {
+          this.isLoading = false;
         }
-        this.isLoading = false;
       },
       (error) => {
         this.isLoading = false;

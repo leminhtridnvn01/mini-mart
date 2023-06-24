@@ -1,0 +1,198 @@
+<div class="revenue-manager-container mx-5 my-5 px-5 py-4">
+  <div
+    class="select-store"
+    fxLayout="row"
+    fxLayoutAlign="space-between stretch"
+  >
+    <h1
+      class="txt-bold"
+      fxFlex="25"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+    >
+      <mat-icon>work</mat-icon> &nbsp; Revenue Management
+    </h1>
+
+    <mat-form-field fxFlex="30">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input
+        [rangePicker]="picker"
+        (dateRangeInput)="onDateRangeChange($event)"
+      >
+        <input
+          matStartDate
+          placeholder="Start date"
+          [formControl]="startDateForm"
+          (dateChange)="onDateRangeChange($event)"
+        />
+        <input
+          matEndDate
+          placeholder="End date"
+          [formControl]="endDateForm"
+          (dateChange)="onDateRangeChange($event)"
+        />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="30">
+      <mat-label>Select Store</mat-label>
+      <mat-select [formControl]="locationForm">
+        <mat-option>-- None --</mat-option>
+        <mat-optgroup
+          *ngFor="let location of locations"
+          [label]="location.cityName"
+        >
+          <mat-option
+            *ngFor="let store of location.stores"
+            [value]="store.storeId"
+          >
+            {{ store.storeName }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+
+    <div
+      class="btn-search"
+      fxFlex="10"
+      fxLayout="row"
+      fxLayoutAlign="center start"
+    >
+      <button
+        type="button"
+        class="btn btn-secondary"
+        style="padding: 14px 8px"
+        (click)="onBtnSearchClick()"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+
+  <mat-spinner *ngIf="isLoading"> </mat-spinner>
+  <table
+    *ngIf="!isLoading"
+    mat-table
+    [dataSource]="revenueOrders"
+    class="renueve-manager-table"
+  >
+    <ng-container matColumnDef="orderId">
+      <th mat-header-cell *matHeaderCellDef>OrderId</th>
+      <td mat-cell *matCellDef="let element">{{ element?.orderId ?? "-" }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="originalPrice">
+      <th mat-header-cell *matHeaderCellDef>OriginalPrice</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.originalPrice ? formatMoney(element?.originalPrice) : "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="priceDecreases">
+      <th mat-header-cell *matHeaderCellDef>Price Decreases</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element?.priceDecreases ? formatMoney(element?.priceDecreases) : "-"
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deliveryFee">
+      <th mat-header-cell *matHeaderCellDef>Delivery Fee</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element?.deliveryFee
+            ? formatMoney(element?.deliveryFee)
+            : formatMoney(0)
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef>Total Price</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.totalPrice ? formatMoney(element?.totalPrice) : "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lK_OrderStatus">
+      <th mat-header-cell *matHeaderCellDef>Order Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ orderStatus[element?.lK_OrderStatus] ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lK_PaymentMethod">
+      <th mat-header-cell *matHeaderCellDef>Payment Method</th>
+      <td mat-cell *matCellDef="let element">
+        {{ paymentMethod[element?.lK_PaymentMethod] ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lK_OrderType">
+      <th mat-header-cell *matHeaderCellDef>Order Type</th>
+      <td mat-cell *matCellDef="let element">
+        {{ orderType[element?.lK_OrderType] ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userName">
+      <th mat-header-cell *matHeaderCellDef>User Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.userName ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phoneNumber">
+      <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.phoneNumber ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deliveryAddress">
+      <th mat-header-cell *matHeaderCellDef>Delivery Address</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.deliveryAddress ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdOn">
+      <th mat-header-cell *matHeaderCellDef>Created Date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.createdOn ? formatDate(element?.createdOn) : "-" }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <div
+    class="btn-add-product my-2 my-2"
+    fxLayout="row"
+    fxLayoutAlign="end stretch"
+  >
+    <span class="font-weight-bold text-danger">
+      Total: &nbsp;
+      {{ revenueTotal ? formatMoney(revenueTotal) : formatMoney(0) }}</span
+    >
+  </div>
+
+  <mat-paginator
+    class="my-3"
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex - 1"
+    [pageSizeOptions]="[100, 25, 10, 5]"
+    (page)="pageChange($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>

@@ -1,0 +1,151 @@
+<div class="promotion-manager-container mx-5 my-5 px-5 py-4">
+  <div
+    class="select-store"
+    fxLayout="row"
+    fxLayoutAlign="space-between stretch"
+  >
+    <h1
+      class="txt-bold"
+      fxFlex="25"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+    >
+      <mat-icon>work</mat-icon> &nbsp; Promotion Management
+    </h1>
+
+    <mat-form-field fxFlex="30">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input
+          matStartDate
+          placeholder="Start date"
+          [formControl]="startDateForm"
+        />
+        <input matEndDate placeholder="End date" [formControl]="endDateForm" />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <!--
+    <mat-form-field fxFlex="30">
+      <mat-label>Select Store</mat-label>
+      <mat-select>
+        <mat-option>-- None --</mat-option>
+        <mat-optgroup
+          *ngFor="let location of locations"
+          [label]="location.cityName"
+        >
+          <mat-option
+            *ngFor="let store of location.stores"
+            [value]="store.storeId"
+          >
+            {{ store.storeName }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field> -->
+
+    <div
+      class="btn-search"
+      fxFlex="10"
+      fxLayout="row"
+      fxLayoutAlign="center start"
+    >
+      <button
+        type="button"
+        class="btn btn-secondary"
+        style="padding: 14px 8px"
+        (click)="onBtnSearchClick()"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+
+  <mat-spinner *ngIf="isLoading"> </mat-spinner>
+  <table
+    *ngIf="!isLoading"
+    mat-table
+    [dataSource]="strategies"
+    class="renueve-manager-table"
+  >
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>name</th>
+      <td mat-cell *matCellDef="let element">{{ element?.name ?? "-" }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.description ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="percentageDecrease">
+      <th mat-header-cell *matHeaderCellDef>Percentage Decrease</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element?.percentageDecrease ? element?.percentageDecrease + "%" : "-"
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="activatedDateFrom">
+      <th mat-header-cell *matHeaderCellDef>Activated Date From</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element?.activatedDateFrom
+            ? formatDate(element?.activatedDateFrom)
+            : "-"
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="activatedDateTo">
+      <th mat-header-cell *matHeaderCellDef>Activated Date To</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element?.activatedDateTo ? formatDate(element?.activatedDateTo) : "-"
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ strategyStatus[element?.lK_ActivatedStrategyStatus] ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="detail">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onBtnViewClick(element)"
+        >
+          View
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    class="my-3"
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex - 1"
+    [pageSizeOptions]="[100, 25, 10, 5]"
+    (page)="pageChange($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>
