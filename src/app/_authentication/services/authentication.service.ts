@@ -15,6 +15,9 @@ export class AuthenticationService {
   );
   currentUser$ = this.currentUser.asObservable();
 
+  private isClient = new BehaviorSubject<boolean>(null as unknown as boolean);
+  isClient$ = this.isClient.asObservable();
+
   private isRedirectedToLogin = new BehaviorSubject<boolean>(
     false as unknown as boolean
   );
@@ -22,6 +25,19 @@ export class AuthenticationService {
 
   constructor() {
     this.isRedirectedToLogin.next(false);
+    this.initCurrentUser();
+  }
+
+  initCurrentUser() {
+    const tokenValidation = this.isValidToken();
+    if (!tokenValidation) {
+      return;
+    }
+    var user = this.getUserToken();
+    this.updateCurrentUser(user);
+
+    var roles = this.getRoles();
+    this.isClient.next(this.isClientRole(roles));
   }
 
   login(token: string, username: string): boolean {
@@ -35,11 +51,23 @@ export class AuthenticationService {
       roles: this.getRoles(),
     };
     this.updateCurrentUser(user);
+
     return true;
   }
 
   updateCurrentUser(user: UserToken) {
     this.currentUser.next(user);
+    this.updateRoles(user?.roles);
+  }
+
+  updateRoles(roles: string) {
+    if (roles) {
+      if (this.isClientRole(roles)) {
+        this.isClient.next(true);
+      } else {
+        this.isClient.next(false);
+      }
+    }
   }
 
   updateLoginState(isLogin: boolean) {
@@ -76,7 +104,7 @@ export class AuthenticationService {
     return user;
   }
 
-  isClient(roles: string) {
+  isClientRole(roles: string) {
     if (roles.includes('Client')) {
       return true;
     }

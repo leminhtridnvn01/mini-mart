@@ -8,7 +8,6 @@ const routes: Routes = [
   {
     path: '',
     component: OrderComponent,
-    canActivate: [ActiveOrderService],
   },
   {
     path: 'payment-success',

@@ -90,6 +90,8 @@ export class ProductQueueGridComponent implements OnInit {
       (items) => {
         if (items) {
           setTimeout(() => {
+            this.locationForms = new FormArray([]);
+            this.locationForms.push(new FormControl('', Validators.required));
             this.products = items.data;
             this.pageSize = items.pageSize;
             this.length = items.totalRecords;

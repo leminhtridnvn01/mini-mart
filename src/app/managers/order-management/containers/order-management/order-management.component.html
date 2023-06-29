@@ -1,0 +1,140 @@
+<div class="order-manager-container mx-5 my-5 px-5 py-4">
+  <div class="select-store" fxLayout="row" fxLayoutAlign="space-between center">
+    <h1
+      class="txt-bold"
+      fxFlex="30"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+    >
+      <mat-icon>work</mat-icon> &nbsp; Order Management
+    </h1>
+    <mat-form-field fxFlex="30">
+      <mat-label>Select Store</mat-label>
+      <mat-select [formControl]="locationForm">
+        <mat-option>-- None --</mat-option>
+        <mat-optgroup
+          *ngFor="let location of locations"
+          [label]="location.cityName"
+        >
+          <mat-option
+            *ngFor="let store of location.stores"
+            [value]="store.storeId"
+            (onSelectionChange)="onSelectLocation($event)"
+          >
+            {{ store.storeName }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-spinner *ngIf="isLoading"> </mat-spinner>
+  <table
+    *ngIf="!isLoading"
+    mat-table
+    [dataSource]="orders"
+    class="order-manager-table"
+  >
+    <ng-container matColumnDef="orderId">
+      <th mat-header-cell *matHeaderCellDef>Order Id</th>
+      <td mat-cell *matCellDef="let element">{{ element.orderId ?? "-" }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderStatus">
+      <th mat-header-cell *matHeaderCellDef>Order Status</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="edit-use-info px-2 py-2" fxLayout="row">
+          <span class="text-truncate mx-2">
+            {{ orderStatus[element.orderStatus] ?? "-" }}
+          </span>
+          <a style="cursor: pointer" (click)="onEditStatus(element)">
+            <mat-icon class="btn-edit" style="color: rgb(94, 53, 177)">
+              edit
+            </mat-icon>
+          </a>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="orderType">
+      <th mat-header-cell *matHeaderCellDef>Order Type</th>
+      <td mat-cell *matCellDef="let element">
+        {{ orderType[element.orderType] ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef>Total Price</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.totalPrice ? formatMoney(element.totalPrice) : "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="paymentMethod">
+      <th mat-header-cell *matHeaderCellDef>Payment Method</th>
+      <td mat-cell *matCellDef="let element">
+        {{ paymentMethod[element.paymentMethod] ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userName">
+      <th mat-header-cell *matHeaderCellDef>User Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.userName ?? "-" }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deliveryAddress">
+      <th mat-header-cell *matHeaderCellDef>Delivery Address</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.deliveryAddress ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="contactPhoneNumber">
+      <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.contactPhoneNumber ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pickupTimeFrom">
+      <th mat-header-cell *matHeaderCellDef>Pickup Time From</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.pickupTimeFrom ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pickupTimeTo">
+      <th mat-header-cell *matHeaderCellDef>Pickup Time To</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.pickupTimeTo ?? "-" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="products">
+      <th mat-header-cell *matHeaderCellDef>List Product</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onBtnViewClick(element)"
+        >
+          View
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    class="my-3"
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex - 1"
+    [pageSizeOptions]="[100, 25, 10, 5]"
+    (page)="pageChange($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>
