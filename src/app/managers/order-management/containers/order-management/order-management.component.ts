@@ -31,8 +31,8 @@ export class OrderManagementComponent implements OnInit {
     'userName',
     'deliveryAddress',
     'contactPhoneNumber',
-    'pickupTimeFrom',
-    'pickupTimeTo',
+    // 'pickupTimeFrom',
+    // 'pickupTimeTo',
     'products',
   ];
 

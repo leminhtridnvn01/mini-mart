@@ -1,3 +1,3 @@
 export interface OrderInfo {
-  orderId: number;
+  orderParrentId: number;
 }

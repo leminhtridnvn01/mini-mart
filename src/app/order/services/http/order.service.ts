@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/_enviroments/enviroment.prod';
-import { Order } from '../../models/order';
+import { Order, OrderParrent } from '../../models/order';
 import { IPagingRequest } from 'src/app/shared/models/paging-request.model';
 import { DataSourceResult } from 'src/app/shared/models';
 import { UpdateDeliveryAddressOrderRequest } from '../../models/update-delevery-info';
@@ -29,6 +29,19 @@ export class OrderService {
       params = params.set('orderStatus', request?.orderStatus?.toString());
     }
     return this.http.get<DataSourceResult<Order>>(url, {
+      params,
+    });
+  }
+
+  getOrdersWaitingForPayment(
+    request: GetOrderRequest
+  ): Observable<OrderParrent[]> {
+    const url = `${this.baseUrl}/Order/get-waiting-for-pay`;
+    let params = this.getParams(request);
+    if (request?.orderStatus) {
+      params = params.set('orderStatus', request?.orderStatus?.toString());
+    }
+    return this.http.get<OrderParrent[]>(url, {
       params,
     });
   }

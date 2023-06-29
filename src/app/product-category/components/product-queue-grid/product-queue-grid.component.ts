@@ -21,6 +21,7 @@ import {
 } from '@angular/forms';
 import { ProductStore } from '../../models/product-location';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-queue-grid',
@@ -43,7 +44,8 @@ export class ProductQueueGridComponent implements OnInit {
   constructor(
     private service: ProductCategoryService,
     private communicator: CommonCommunicationService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    public router: Router
   ) {}
 
   ngOnInit(): void {

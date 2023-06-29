@@ -2,7 +2,7 @@ import { UpdateOrderTypeRequest } from './../../models/update-order-type';
 import { LK_OrderType } from './../../enums/order-type';
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services';
-import { Order } from '../../models/order';
+import { Order, OrderParrent } from '../../models/order';
 import { GetOrderRequest } from '../../models/get-order-request';
 import {
   AbstractControl,
@@ -27,10 +27,10 @@ import { OrderInfo } from '../../models/order-info';
 })
 export class OrderComponent implements OnInit {
   tabLabels = [
-    {
-      index: 1,
-      value: 'Waiting For Payment',
-    },
+    // {
+    //   index: 1,
+    //   value: 'Waiting For Payment',
+    // },
     {
       index: 2,
       value: 'Waiting For Delivery/Pickup',
@@ -70,6 +70,7 @@ export class OrderComponent implements OnInit {
   ];
   currentTabIndex = 1;
   orders: Order[] = [];
+  orderParrents: OrderParrent[] = [];
   isPickup: boolean = false;
   exportTime: ITime = { hour: 7, minute: 15, meriden: 'AM', format: 24 };
 
@@ -91,7 +92,8 @@ export class OrderComponent implements OnInit {
   }
 
   initOrder() {
-    this.refreshOrder();
+    // this.refreshOrder();
+    this.refreshOrderWaitingForPaymment();
   }
 
   refreshOrder() {
@@ -103,15 +105,35 @@ export class OrderComponent implements OnInit {
     this.orderService.getOrders(request).subscribe((items) => {
       if (items) {
         this.orders = items.data;
-        console.log(this.orders);
+        // console.log(this.orders);
+        // this.orderTypeForms = new FormArray([]);
+        // this.paymentMethodForms = new FormArray([]);
+        // this.orders.forEach((order) => {
+        //   this.orderTypeForms.push(
+        //     new FormControl(order.orderType, Validators.required)
+        //   );
+        //   this.paymentMethodForms.push(
+        //     new FormControl(order.paymentMethod, Validators.required)
+        //   );
+        // });
+      }
+    });
+  }
+
+  refreshOrderWaitingForPaymment() {
+    let request: GetOrderRequest = {
+      orderStatus: this.currentTabIndex,
+      pageNo: 1,
+      pageSize: 5,
+    };
+    this.orderService.getOrdersWaitingForPayment(request).subscribe((items) => {
+      if (items) {
+        this.orderParrents = items;
         this.orderTypeForms = new FormArray([]);
         this.paymentMethodForms = new FormArray([]);
-        this.orders.forEach((order) => {
-          this.orderTypeForms.push(
-            new FormControl(order.orderType, Validators.required)
-          );
+        this.orderParrents.forEach((OrderParrent) => {
           this.paymentMethodForms.push(
-            new FormControl(order.paymentMethod, Validators.required)
+            new FormControl(OrderParrent.paymentMethod, Validators.required)
           );
         });
       }
@@ -120,7 +142,10 @@ export class OrderComponent implements OnInit {
 
   onSelectTab(event: any) {
     this.currentTabIndex = event + 1;
-    this.refreshOrder();
+    if (this.currentTabIndex == 1) {
+    } else {
+      this.refreshOrder();
+    }
   }
 
   onEditBtnClick(order: Order): void {
@@ -162,9 +187,9 @@ export class OrderComponent implements OnInit {
       );
   }
 
-  onBtnOrderClick(order: Order): void {
+  onBtnOrderClick(OrderParrent: OrderParrent): void {
     var request: OrderInfo = {
-      orderId: order.orderId,
+      orderParrentId: OrderParrent.orderParrentId,
     };
     this.orderService.pay(request).subscribe(
       (item) => {
@@ -204,11 +229,28 @@ export class OrderComponent implements OnInit {
   }
 
   onSelectPaymentMethod(event: MatOptionSelectionChange, order: Order) {
+    // if (event.isUserInput) {
+    //   order.paymentMethod = +event.source.value;
+    //   var request: UpdatePaymentMethodRequest = {
+    //     orderId: order.orderId,
+    //     lK_PaymentMethod: order.paymentMethod,
+    //   };
+    //   this.orderService.updatePaymentMethod(request).subscribe((item) => {
+    //     if (item) {
+    //     }
+    //   });
+    // }
+  }
+
+  onSelectPaymentMethodForOrderParrent(
+    event: MatOptionSelectionChange,
+    orderParrent: OrderParrent
+  ) {
     if (event.isUserInput) {
-      order.paymentMethod = +event.source.value;
+      orderParrent.paymentMethod = +event.source.value;
       var request: UpdatePaymentMethodRequest = {
-        orderId: order.orderId,
-        lK_PaymentMethod: order.paymentMethod,
+        orderParrentId: orderParrent.orderParrentId,
+        lK_PaymentMethod: orderParrent.paymentMethod,
       };
       this.orderService.updatePaymentMethod(request).subscribe((item) => {
         if (item) {

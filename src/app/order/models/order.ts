@@ -16,3 +16,11 @@ export interface Order {
   pickupTimeTo: Date;
   products: ProductInCart[];
 }
+
+export interface OrderParrent {
+  totalPrice: number;
+  orderParrentId: number;
+  lk_orderStatus?: number;
+  paymentMethod?: number;
+  orders: Order[];
+}
