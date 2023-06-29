@@ -138,6 +138,23 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
+  <div
+    class="btn-add-product my-2 my-2"
+    fxLayout="row"
+    fxLayoutAlign="end stretch"
+  >
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onBtnAddNewClick()"
+      fxLayout="row"
+      fxLayoutAlign="space-around stretch"
+    >
+      <mat-icon>library_add</mat-icon>
+      <span>&nbsp; New</span>
+    </button>
+  </div>
+
   <mat-paginator
     class="my-3"
     [length]="length"

@@ -11,6 +11,7 @@ import { environment } from 'src/app/_enviroments/enviroment.prod';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  isLogin: boolean = true;
   constructor(
     private http: HttpClient,
     private authService: AuthenticationService,
@@ -35,6 +36,24 @@ export class LoginComponent {
     });
   }
 
+  onRegisterBtnClick() {}
+
+  register(
+    userName: string,
+    password: string,
+    name: string,
+    phoneNumber: string
+  ) {
+    const url = `${this.baseUrl}/Register`;
+    var request = {
+      email: userName,
+      password: password,
+      name: name,
+      phoneNumber: phoneNumber,
+    };
+    return this.http.post<UserLogin>(url, request, this.httpOptions);
+  }
+
   fetchApi(userName: string, password: string): Observable<UserLogin> {
     const url = `${this.baseUrl}/Login`;
     var request = {
@@ -42,6 +61,10 @@ export class LoginComponent {
       password: password,
     };
     return this.http.post<UserLogin>(url, request, this.httpOptions);
+  }
+
+  onIsLoginClick() {
+    this.isLogin = !this.isLogin;
   }
 }
 

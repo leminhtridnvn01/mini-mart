@@ -107,6 +107,8 @@ export class PromotionManagementComponent implements OnInit {
       .afterClosed();
   }
 
+  onBtnAddNewClick() {}
+
   pageChange(event?: PageEvent): void {
     if (event) {
       this.pageIndex = event.pageIndex + 1;

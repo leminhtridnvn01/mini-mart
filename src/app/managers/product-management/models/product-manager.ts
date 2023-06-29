@@ -16,6 +16,7 @@ export interface GetProductManagerResponse {
 
 export interface GetProductManagerRequest extends IPagingRequest {
   storeId: number;
+  search?: string;
 }
 
 export interface GetLocationManageStoreResponse {

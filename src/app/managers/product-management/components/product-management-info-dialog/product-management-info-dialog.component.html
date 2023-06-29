@@ -29,15 +29,41 @@
       fxLayout="row"
       fxLayoutAlign="space-between stretch"
     >
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="example-full-width" fxFlex="100">
         <mat-label>Price</mat-label>
         <input [formControl]="priceForm" matInput type="number" />
       </mat-form-field>
-      <mat-form-field class="example-full-width">
+      <!-- <mat-form-field class="example-full-width">
         <mat-label>Price Decreases</mat-label>
         <input [formControl]="priceDecreasesForm" matInput type="number" />
       </mat-form-field>
       <mat-form-field *ngIf="data?.isEdit" class="example-full-width">
+        <mat-label>Quantity</mat-label>
+        <input [formControl]="quantityForm" matInput type="number" />
+      </mat-form-field> -->
+    </div>
+    <!-- Price Decreases -->
+    <div
+      class="product-price-decreases"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <mat-label>Price Decreases</mat-label>
+        <input [formControl]="priceDecreasesForm" matInput type="number" />
+      </mat-form-field>
+    </div>
+    <!-- Quantity  -->
+    <div
+      class="product-quantity"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field
+        *ngIf="data?.isEdit"
+        class="example-full-width"
+        fxFlex="100"
+      >
         <mat-label>Quantity</mat-label>
         <input [formControl]="quantityForm" matInput type="number" />
       </mat-form-field>

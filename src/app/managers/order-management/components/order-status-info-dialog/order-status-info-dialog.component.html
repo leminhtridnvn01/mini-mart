@@ -1,0 +1,29 @@
+<div mat-dialog-content>
+  <h3 mat-dialog-title class="col-12">Edit Order Status</h3>
+  <div class="order-manager-container mx-5 my-5 px-5 py-4" fxLayout="row">
+    <mat-form-field fxFlex="100">
+      <mat-label>Order Status</mat-label>
+      <mat-select [formControl]="orderStatusForm">
+        <mat-option *ngFor="let status of orderStatus" [value]="status.id">
+          {{ status.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="pb-3 pr-4" align="end">
+    <app-spinner-button
+      mat-raised-button
+      class="mx-2"
+      (buttonClick)="onBtnSaveClick()"
+    >
+      Save
+    </app-spinner-button>
+    <button
+      mat-stroked-button
+      class="btn btn-outline-secondary mx-2"
+      mat-dialog-close
+    >
+      Cancel
+    </button>
+  </div>
+</div>

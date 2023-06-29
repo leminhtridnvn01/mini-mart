@@ -11,7 +11,10 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { LK_OrderType } from 'src/app/order/enums/order-type';
 import { LK_PaymentMethod } from 'src/app/order/enums/payment-type';
 import { LK_OrderStatus } from 'src/app/order/enums/order-status';
-import { ListOrderProductComponent } from '../../components';
+import {
+  ListOrderProductComponent,
+  OrderStatusInfoDialogComponent,
+} from '../../components';
 
 @Component({
   selector: 'app-order-management',
@@ -116,6 +119,18 @@ export class OrderManagementComponent implements OnInit {
         },
         disableClose: false,
         width: '1200px',
+      })
+      .afterClosed();
+  }
+
+  onEditStatus(order: Order) {
+    this.dialog
+      .open(OrderStatusInfoDialogComponent, {
+        data: {
+          orderStatus: order.orderStatus,
+        },
+        disableClose: false,
+        width: '600px',
       })
       .afterClosed();
   }

@@ -1,5 +1,9 @@
 <div class="product-manager-container mx-5 my-5 px-5 py-4">
-  <div class="select-store" fxLayout="row" fxLayoutAlign="space-between center">
+  <div
+    class="select-store h-100"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
     <h1
       class="txt-bold"
       fxFlex="30"
@@ -8,6 +12,35 @@
     >
       <mat-icon>work</mat-icon> &nbsp; Product Management
     </h1>
+
+    <div
+      class="search-bar-container h-100"
+      style="margin-bottom: 22.4px"
+      fxFlex="50"
+      fxLayout="row"
+      fxLayoutAlign="center stretch"
+    >
+      <div class="d-flex h-100" fxFlex="75">
+        <input
+          id="search-input"
+          class="form-control me-2 btn-search"
+          type="search"
+          placeholder="Search by ID or Name"
+          aria-label="Search"
+          [formControl]="searchForm"
+          (keyup.enter)="onClickSearchBtn()"
+        />
+        <button
+          class="btn header-button h-100"
+          style="padding-top: 12px !important"
+          type="button"
+          (click)="onClickSearchBtn()"
+        >
+          <mat-icon class="item-center txt-bold h-100">search</mat-icon>
+        </button>
+      </div>
+    </div>
+
     <mat-form-field fxFlex="30">
       <mat-label>Select Store</mat-label>
       <mat-select [formControl]="locationForm">
@@ -35,6 +68,11 @@
     [dataSource]="products"
     class="product-manager-table"
   >
+    <ng-container matColumnDef="productId">
+      <th mat-header-cell *matHeaderCellDef>Product ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.productId ?? "-" }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let element">{{ element.name ?? "-" }}</td>

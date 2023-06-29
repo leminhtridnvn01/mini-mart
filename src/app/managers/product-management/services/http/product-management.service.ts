@@ -33,6 +33,9 @@ export class ProductManagementService {
     if (request?.storeId) {
       params = params.set('storeId', request?.storeId?.toString());
     }
+    if (request?.search) {
+      params = params.set('search', request?.search?.toString());
+    }
     return this.http.get<DataSourceResult<GetProductManagerResponse>>(url, {
       params,
     });

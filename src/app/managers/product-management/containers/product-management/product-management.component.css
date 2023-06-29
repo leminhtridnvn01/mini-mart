@@ -23,3 +23,32 @@
 }
 
 
+.header-button {
+  display: table-cell;
+  background-color: transparent;
+  border-radius: 90px;
+  border: 1px solid rgb(94, 53, 177)!important;
+  color: rgb(94, 53, 177);
+  align-items: center;
+  justify-content: center;
+}
+
+.header-button:hover {
+  background-color: rgb(94, 53, 177);
+  color: white;
+}
+
+.header-button:active {
+  background-color: rgb(237, 231, 246);
+  /* color: white; */
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-search {
+  background-color: white;
+  border-color: rgb(94, 53, 177);
+  color: rgb(94, 53, 177);
+  border-radius: 90px;
+}

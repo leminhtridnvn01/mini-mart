@@ -10,7 +10,7 @@ import {
   ProductLocation,
   ProductStore,
 } from 'src/app/product-category/models/product-location';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
@@ -24,6 +24,7 @@ import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant
 })
 export class ProductManagementComponent implements OnInit {
   displayedColumns: string[] = [
+    'productId',
     'name',
     'description',
     'quantity',
@@ -37,6 +38,7 @@ export class ProductManagementComponent implements OnInit {
   products: GetProductManagerResponse[];
   locations: ProductLocation[];
   locationForm: FormControl;
+  searchForm: FormControl;
   isLoading: boolean = false;
   pageSize: number = 10;
   length: number = 0;
@@ -48,7 +50,8 @@ export class ProductManagementComponent implements OnInit {
     private dialog: MatDialog,
     private snackBarService: SnackBarService
   ) {
-    this.locationForm = new FormControl('');
+    this.locationForm = new FormControl('', Validators.required);
+    this.searchForm = new FormControl('');
   }
 
   ngOnInit(): void {
@@ -215,6 +218,20 @@ export class ProductManagementComponent implements OnInit {
           );
         }
       );
+  }
+
+  onClickSearchBtn() {
+    if (this.locationForm.valid) {
+      var request: GetProductManagerRequest = {
+        pageNo: 1,
+        pageSize: this.pageSize,
+        storeId: this.locationForm.value,
+        search: this.searchForm.value,
+      };
+      this.refreshProducts(request);
+    } else {
+      this.locationForm.markAllAsTouched();
+    }
   }
 
   addCommas(num: number): string {

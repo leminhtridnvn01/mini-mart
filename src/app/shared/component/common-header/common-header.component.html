@@ -38,7 +38,11 @@
         fxLayout="row"
         fxLayoutAlign="center stretch"
       >
-        <div class="d-flex h-100" fxFlex="75">
+        <div
+          *ngIf="(authService.isClient$ | async) == true"
+          class="d-flex h-100"
+          fxFlex="75"
+        >
           <input
             id="search-input"
             class="form-control me-2 btn-search"
@@ -48,6 +52,7 @@
             (keyup.enter)="onClickSearchBtn()"
           />
           <button
+            *ngIf="(authService.isClient$ | async) == true"
             class="btn header-button"
             type="button"
             (click)="onClickSearchBtn()"
@@ -129,6 +134,7 @@
         </button>
         <mat-divider></mat-divider>
         <button
+          *ngIf="(authService.isClient$ | async) == true"
           mat-raised-button
           routerLink="/products"
           routerLinkActive="selected no-border "
@@ -141,7 +147,9 @@
             <span class="item-center txt-bold"> Category </span>
           </span>
         </button>
-        <mat-divider></mat-divider>
+        <mat-divider
+          *ngIf="(authService.isClient$ | async) == true"
+        ></mat-divider>
         <button
           *ngIf="(authService.isClient$ | async) == true"
           mat-raised-button
@@ -186,7 +194,7 @@
           class="no-border btn btn-page"
         >
           <span fxLayoutAlign="start">
-            <mat-icon class="mr-2 item-center"> list_alt</mat-icon>
+            <mat-icon class="mr-2 item-center">layers</mat-icon>
             <span class="item-center txt-bold"> Product Manager </span>
           </span>
         </button>
@@ -203,7 +211,7 @@
           class="no-border btn btn-page"
         >
           <span fxLayoutAlign="start">
-            <mat-icon class="mr-2 item-center"> list_alt</mat-icon>
+            <mat-icon class="mr-2 item-center">trending_up</mat-icon>
             <span class="item-center txt-bold"> Revenue Manager </span>
           </span>
         </button>
@@ -222,6 +230,23 @@
           <span fxLayoutAlign="start">
             <mat-icon class="mr-2 item-center"> list_alt</mat-icon>
             <span class="item-center txt-bold"> Order Manager </span>
+          </span>
+        </button>
+        <mat-divider
+          *ngIf="(authService.isClient$ | async) == false"
+        ></mat-divider>
+        <button
+          *ngIf="(authService.isClient$ | async) == false"
+          mat-raised-button
+          routerLink="/promotion-management"
+          routerLinkActive="selected no-border"
+          fxFlex="10"
+          fxLayoutAlign="start"
+          class="no-border btn btn-page"
+        >
+          <span fxLayoutAlign="start">
+            <mat-icon class="mr-2 item-center"> event_available</mat-icon>
+            <span class="item-center txt-bold"> Promotion Manager </span>
           </span>
         </button>
         <mat-divider
