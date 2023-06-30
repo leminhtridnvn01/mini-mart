@@ -15,6 +15,7 @@ import {
   ListOrderProductComponent,
   OrderStatusInfoDialogComponent,
 } from '../../components';
+import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
 
 @Component({
   selector: 'app-order-management',
@@ -27,11 +28,12 @@ export class OrderManagementComponent implements OnInit {
     'orderStatus',
     'orderType',
     'totalPrice',
+    'approved',
     'paymentMethod',
     'userName',
     'deliveryAddress',
     'contactPhoneNumber',
-    // 'pickupTimeFrom',
+    'pickupTimeFrom',
     // 'pickupTimeTo',
     'products',
   ];
@@ -135,6 +137,25 @@ export class OrderManagementComponent implements OnInit {
       .afterClosed();
   }
 
+  onApproveBtn(order: Order) {
+    this.orderManagementService.approveOrder(order.orderId).subscribe(
+      (item) => {
+        if (item) {
+          this.snackBarService.openSnackBar(
+            'Approved Successfully!',
+            SNACK_BAR_TYPE.Success
+          );
+        }
+      },
+      (error) => {
+        this.snackBarService.openSnackBar(
+          'Fail to approved!',
+          SNACK_BAR_TYPE.Error
+        );
+      }
+    );
+  }
+
   pageChange(event?: PageEvent): void {
     if (event) {
       this.pageIndex = event.pageIndex + 1;
@@ -148,6 +169,11 @@ export class OrderManagementComponent implements OnInit {
       };
       this.refreshOrder(request);
     }
+  }
+
+  formatDate(date: Date): string {
+    var dateFormat = new Date(date).toLocaleString();
+    return dateFormat;
   }
 
   formatMoney(amount: number): string {

@@ -12,6 +12,8 @@ import { UpdatePaymentMethodRequest } from '../../models/update-payment-method';
 import { PaymentInfoRequest } from '../../models/payment-info';
 import { OrderInfo } from '../../models/order-info';
 import { OrderProcess } from '../../models/order-process';
+import { UpdatePickupTimeRequest } from '../../models/update-pickup-time';
+import { UpdateOrderStatusRequest } from '../../models/update-order-status';
 
 @Injectable()
 export class OrderService {
@@ -55,6 +57,16 @@ export class OrderService {
 
   updateOrderType(request: UpdateOrderTypeRequest): Observable<boolean> {
     const url = `${this.baseUrl}/Order/edit-order-type`;
+    return this.http.put<boolean>(url, request, this.httpOptions);
+  }
+
+  updateOrderStatus(request: UpdateOrderStatusRequest): Observable<boolean> {
+    const url = `${this.baseUrl}/Order/update-order-status`;
+    return this.http.put<boolean>(url, request, this.httpOptions);
+  }
+
+  updatePickupTime(request: UpdatePickupTimeRequest): Observable<boolean> {
+    const url = `${this.baseUrl}/Order/edit-pickup-time`;
     return this.http.put<boolean>(url, request, this.httpOptions);
   }
 

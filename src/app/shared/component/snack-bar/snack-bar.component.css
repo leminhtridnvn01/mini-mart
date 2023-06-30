@@ -1,13 +1,13 @@
 
 
 .snack-bar-container {
-  width: 350px;
+  width: 400px;
   border-radius: 100px;
   /* display: flex; */
   align-items: center;
   justify-content: center;
   .material-message {
-    padding: 0 0 0 0.5rem !important;
+    padding: 0 0 0 0.8rem !important;
     font-size: 20px;
     align-items: center;
     justify-content: center;

@@ -15,6 +15,8 @@ export interface Order {
   pickupTimeFrom: Date;
   pickupTimeTo: Date;
   products: ProductInCart[];
+  pickupTime?: Date;
+  isApproved?: boolean;
 }
 
 export interface OrderParrent {

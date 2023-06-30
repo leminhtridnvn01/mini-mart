@@ -28,6 +28,7 @@
     "@popperjs/core": "^2.11.7",
     "bootstrap": "^5.2.3",
     "flex-layout": "^1.0.1",
+    "mat-datepicker-time-header": "^1.0.8",
     "rxjs": "~7.5.0",
     "ts-luxon": "^4.3.2",
     "tslib": "^2.3.0",

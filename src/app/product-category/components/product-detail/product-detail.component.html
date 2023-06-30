@@ -46,6 +46,12 @@
                 {{ formatProductUnit(product.lK_ProductUnit) }}
               </span>
             </div>
+            <div class="product-remaining-quantity py-2" fxLayout="row">
+              <span fxFlex="30">Remaining quantity: </span>
+              <span fxFlex="70">
+                {{ remainingQuantity }}
+              </span>
+            </div>
             <div class="product-detail-quantities py-2" fxLayout="row">
               <span fxFlex="30">Quantities: </span>
               <div class="input-group" fxFlex="15" fxLayout="row">
@@ -89,44 +95,79 @@
               class="btn btn-primary mx-3"
               fxFlex="40"
               fxLayoutAlign="center center"
+              (click)="onAddToCartBtnClick()"
             >
               <mat-icon>shopping_cart</mat-icon>
-              <span> Add to Basket </span>
+              <span> Add to Cart </span>
             </a>
           </div>
         </div>
       </div>
     </div>
     <hr class="mx-3 my-4" />
-    <div class="product-detail-status-info-content px-4 py-4" fxLayout="row">
-      <div class="product-detail-status-locate mx-5" fxFlex="50">
-        <h2>Current Locate Store</h2>
+    <div
+      class="product-detail-status-info-content px-4 py-4"
+      style="min-height: 300px"
+      fxLayout="row"
+    >
+      <div class="product-detail-status-locate mx-5" fxFlex="40">
+        <h2>Locate Store</h2>
         <div
           class="list-location-container"
-          *ngFor="let productLocation of productLocations; let index = index"
+          *ngFor="
+            let productLocation of productLocations;
+            let indexLocation = index
+          "
         >
-          <mat-list-item (click)="toggle[index] = !toggle[index]">
+          <mat-list-item
+            (click)="toggle[indexLocation] = !toggle[indexLocation]"
+            [activated]="false"
+          >
             <a matLine style="font-size: 20px">{{
               productLocation.cityName
             }}</a>
             <span>
-              <mat-icon *ngIf="!toggle[index]">expand_more</mat-icon>
-              <mat-icon *ngIf="toggle[index]">expand_less</mat-icon>
+              <mat-icon *ngIf="!toggle[indexLocation]">expand_more</mat-icon>
+              <mat-icon *ngIf="toggle[indexLocation]">expand_less</mat-icon>
             </span>
           </mat-list-item>
-          <div [hidden]="!toggle[index]">
-            <mat-selection-list>
-              <mat-list-option
-                *ngFor="let store of productLocation.stores"
-                checkboxPosition="before"
-              >
+          <div [hidden]="toggle[indexLocation]">
+            <!-- <mat-selection-list>
+              <mat-list-option *ngFor="let store of productLocation.stores">
                 {{ store.storeName }}
               </mat-list-option>
-            </mat-selection-list>
+            </mat-selection-list> -->
+            <mat-nav-list>
+              <mat-list-item
+                *ngFor="
+                  let store of productLocation.stores;
+                  let indexStore = index
+                "
+              >
+                <mat-radio-button (change)="onChangeStore(store)">
+                  {{ store.storeName }}
+                </mat-radio-button>
+              </mat-list-item>
+            </mat-nav-list>
           </div>
         </div>
       </div>
-      <div class="product-detail-status-current" fxFlex="50"></div>
+      <mat-divider vertical></mat-divider>
+      <div class="product-detail-status-current mx-5" fxFlex="40">
+        <h2>Store Infomation</h2>
+        <div class="mx-2 my-2" fxLayout="row" fxLayoutAlign="start center">
+          <span fxFlex="20">Store Name:&nbsp;</span>
+          <span>{{ currentStore?.storeName ?? "-" }}</span>
+        </div>
+        <div class="mx-2 my-2" fxLayout="row" fxLayoutAlign="start center">
+          <span fxFlex="20">Address:&nbsp;</span>
+          <span>{{ currentStore?.address ?? "-" }}</span>
+        </div>
+        <div class="mx-2 my-2" fxLayout="row" fxLayoutAlign="start center">
+          <span fxFlex="20">City:&nbsp;</span>
+          <span>{{ currentStore?.cityName ?? "-" }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

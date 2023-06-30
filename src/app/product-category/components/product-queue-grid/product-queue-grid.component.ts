@@ -175,7 +175,7 @@ export class ProductQueueGridComponent implements OnInit {
         },
         (error) => {
           this.snackBarService.openSnackBar(
-            'Fail to add this product to cart',
+            error?.error?.message,
             SNACK_BAR_TYPE.Error
           );
         }

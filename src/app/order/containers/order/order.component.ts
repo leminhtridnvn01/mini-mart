@@ -8,6 +8,7 @@ import {
   AbstractControl,
   FormArray,
   FormControl,
+  FormGroup,
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,7 +20,10 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { UpdatePaymentMethodRequest } from '../../models/update-payment-method';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderInfo } from '../../models/order-info';
-
+import { MatDatepickerTimeHeaderComponent } from 'mat-datepicker-time-header';
+import { UpdatePickupTimeRequest } from '../../models/update-pickup-time';
+import { UpdateOrderStatusRequest } from '../../models/update-order-status';
+import { LK_OrderStatus } from '../../enums/order-status';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -76,8 +80,18 @@ export class OrderComponent implements OnInit {
 
   orderTypeFormControl = new FormControl('', Validators.required);
   orderTypeForms: FormArray;
+  orderIndexs: number[] = [];
   paymentMethodFormControl = new FormControl('', Validators.required);
   paymentMethodForms: FormArray;
+  pickupTimeForms: FormArray;
+  pickupTimes: ITime[] = [];
+
+  timeHeader = MatDatepickerTimeHeaderComponent;
+
+  formGroup = new FormGroup({
+    date: new FormControl(),
+    time: new FormControl('01:23'),
+  });
 
   constructor(
     private orderService: OrderService,
@@ -105,6 +119,7 @@ export class OrderComponent implements OnInit {
     this.orderService.getOrders(request).subscribe((items) => {
       if (items) {
         this.orders = items.data;
+
         // console.log(this.orders);
         // this.orderTypeForms = new FormArray([]);
         // this.paymentMethodForms = new FormArray([]);
@@ -120,6 +135,23 @@ export class OrderComponent implements OnInit {
     });
   }
 
+  isValidWorkingTime(): boolean {
+    // var beginDate = new Date();
+    // beginDate.setHours(7);
+    // beginDate.setMinutes(0);
+    // var endDate = new Date();
+    // endDate.setHours(20);
+    // endDate.setMinutes(0);
+    // var validDate = new Date();
+    // if (validDate.getHours() > endDate.getHours()) {
+    //   return false;
+    // }
+    // if (validDate.getHours() < beginDate.getHours()) {
+    //   return false;
+    // }
+    return true;
+  }
+
   refreshOrderWaitingForPaymment() {
     let request: GetOrderRequest = {
       orderStatus: this.currentTabIndex,
@@ -131,13 +163,41 @@ export class OrderComponent implements OnInit {
         this.orderParrents = items;
         this.orderTypeForms = new FormArray([]);
         this.paymentMethodForms = new FormArray([]);
-        this.orderParrents.forEach((OrderParrent) => {
+        this.pickupTimeForms = new FormArray([]);
+
+        var validDate = new Date();
+        validDate.setMinutes(validDate.getMinutes() + 30);
+        this.orderParrents.forEach((orderParrent) => {
           this.paymentMethodForms.push(
-            new FormControl(OrderParrent.paymentMethod, Validators.required)
+            new FormControl(orderParrent.paymentMethod, Validators.required)
           );
+          orderParrent.orders.forEach((order) => {
+            this.orderTypeForms.push(
+              new FormControl(order.orderType, Validators.required)
+            );
+            // this.pickupTimeForms.push(
+            //   new FormGroup({
+            //     date: new FormControl(),
+            //     time: new FormControl('17:23'),
+            //   })
+            // );
+            // this.pickupTimeForms.push(
+            //   new FormControl(this.convertToITime(order?.pickupTime) ?? '')
+            // );
+            this.pickupTimes.push(
+              this.convertToITime(
+                order?.pickupTime ? new Date(order?.pickupTime) : validDate
+              )
+            );
+            this.orderIndexs.push(order.orderId);
+          });
         });
       }
     });
+  }
+
+  getOrderIndex(order: Order): number {
+    return this.orderIndexs.indexOf(order.orderId);
   }
 
   onSelectTab(event: any) {
@@ -206,8 +266,18 @@ export class OrderComponent implements OnInit {
     );
   }
 
-  onChangePickupTimeFrom(event: any, order: Order) {
-    order.pickupTimeFrom = this.convertToDate(event);
+  onChangePickupTimeFrom(event: any, order: Order, index: number) {
+    var date = this.convertToDate(event);
+    order.pickupTimeFrom = date;
+    // console.log(date);
+    var request: UpdatePickupTimeRequest = {
+      orderId: order.orderId,
+      pickupTime: new Date(date.toISOString()),
+    };
+    this.orderService.updatePickupTime(request).subscribe((item) => {
+      if (item) {
+      }
+    });
   }
 
   onChangePickupTimeTo(event: any, order: Order) {
@@ -242,6 +312,10 @@ export class OrderComponent implements OnInit {
     // }
   }
 
+  onDatePickupChange(event: any) {
+    console.log(event);
+  }
+
   onSelectPaymentMethodForOrderParrent(
     event: MatOptionSelectionChange,
     orderParrent: OrderParrent
@@ -257,6 +331,54 @@ export class OrderComponent implements OnInit {
         }
       });
     }
+  }
+
+  onCancleOrderBtnClick(order: Order) {
+    var request: UpdateOrderStatusRequest = {
+      orderId: order.orderId,
+      orderStatus: LK_OrderStatus.DeliveryCancle,
+    };
+    this.orderService.updateOrderStatus(request).subscribe(
+      (item) => {
+        if (item) {
+          this.snackBarService.openSnackBar(
+            'Cancle Order Succesflly',
+            SNACK_BAR_TYPE.Success
+          );
+          this.refreshOrder();
+        }
+      },
+      (error) => {
+        this.snackBarService.openSnackBar(
+          error?.error?.message,
+          SNACK_BAR_TYPE.Error
+        );
+      }
+    );
+  }
+
+  onBuyAgainBtnClick(order: Order) {
+    var request: UpdateOrderStatusRequest = {
+      orderId: order.orderId,
+      orderStatus: LK_OrderStatus.WaitingForPayment,
+    };
+    this.orderService.updateOrderStatus(request).subscribe(
+      (item) => {
+        if (item) {
+          this.snackBarService.openSnackBar(
+            'Re-create Order Succesflly',
+            SNACK_BAR_TYPE.Success
+          );
+          this.refreshOrder();
+        }
+      },
+      (error) => {
+        this.snackBarService.openSnackBar(
+          error?.error?.message,
+          SNACK_BAR_TYPE.Error
+        );
+      }
+    );
   }
 
   //private function
@@ -278,17 +400,22 @@ export class OrderComponent implements OnInit {
   convertToITime(date: Date): ITime {
     const hours = date.getHours();
     const minutes = date.getMinutes();
+
     return { hour: hours, minute: minutes, meriden: 'PM', format: 24 };
   }
 
   convertToDate(time: ITime): Date {
     const date: Date = new Date();
-    date.setHours(time.hour);
-    date.setMinutes(time.minute);
+    date.setUTCHours(time.hour);
+    date.setUTCMinutes(time.minute);
     return date;
   }
 
   toControl(absCtrl: AbstractControl): FormControl {
     return absCtrl as FormControl;
+  }
+
+  toGroup(absCtrl: AbstractControl): FormGroup {
+    return absCtrl as FormGroup;
   }
 }

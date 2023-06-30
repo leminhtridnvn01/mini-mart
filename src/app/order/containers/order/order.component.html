@@ -3,7 +3,10 @@
     <mat-tab label="Waiting For Payment">
       <div
         class="order-item-container mx-5 my-5 px-3 py-3"
-        *ngFor="let orderParrent of orderParrents; let orderIndex = index"
+        *ngFor="
+          let orderParrent of orderParrents;
+          let orderParrentIndex = index
+        "
       >
         <div
           class="card-item-container mx-5 my-5 px-3 py-3"
@@ -93,24 +96,111 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              <div
+              <!-- <div
                 class="ml-4 mr-3"
                 style="font-size: 20px"
                 fxFlex="65"
                 fxLayout="row"
                 fxLayoutAlign="space-between center"
-              ></div>
+              ></div> -->
 
               <div
+                class="mx-5"
                 style="font-size: 20px"
-                fxFlex="30"
+                fxFlex="100"
                 fxLayout="row"
-                fxLayoutAlign="space-around stretch"
+                fxLayoutAlign="start stretch"
               >
                 <!-- <span>Total Price:</span>
                 <span class="font-weight-bold text-danger">
                   {{ formatMoney(order.totalPrice) }}
                 </span> -->
+
+                <div
+                  class="order-type-select"
+                  fxFlex="40"
+                  fxLayout="row"
+                  fxLayoutAlign="start center"
+                >
+                  <span fxFlex="35"> Order Type: </span>
+                  <mat-form-field fxFlex="60">
+                    <mat-label>Select an option</mat-label>
+                    <mat-select
+                      placeholder="Select a Order Type"
+                      [formControl]="
+                        toControl(orderTypeForms.at(getOrderIndex(order)))
+                      "
+                      required
+                    >
+                      <mat-option
+                        *ngFor="let orderType of orderTypes"
+                        [value]="orderType.value"
+                        [disabled]="
+                          orderType.value == 1 && !isValidWorkingTime()
+                        "
+                        (onSelectionChange)="onSelectOrderType($event, order)"
+                      >
+                        {{ orderType.viewValue }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div
+                  *ngIf="order.orderType == 1"
+                  class="time-container mx-3"
+                  fxFlex="30"
+                >
+                  <!-- <form
+                    [formGroup]="
+                      toGroup(
+                        pickupTimeForms.at(
+                          orderParrentIndex * orderParrent.orders.length +
+                            orderIndex
+                        )
+                      )
+                    "
+                  > -->
+                  <form>
+                    <!-- <mat-form-field appearance="fill">
+                      <mat-label>Pick-up Time</mat-label>
+                      <input
+                        formControlName="date"
+                        matInput
+                        [matDatepicker]="picker"
+                        (dateChange)="onDatePickupChange($event)"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker
+                        #picker
+                        [calendarHeaderComponent]="timeHeader"
+                        (change)="onDatePickupChange($event)"
+                      ></mat-datepicker>
+                    </mat-form-field> -->
+                    <material-timepicker
+                      class="mr-2 custom-timepicker"
+                      color="primary"
+                      label="Pick-up Time"
+                      [userTime]="exportTime"
+                      (change)="
+                        onChangePickupTimeFrom(
+                          $event,
+                          order,
+                          getOrderIndex(order)
+                        )
+                      "
+                      revertLabel="Remove"
+                      submitLabel="Ok"
+                      fxFlex="47"
+                      appearance="outline"
+                      [userTime]="pickupTimes.at(getOrderIndex(order))"
+                    >
+                    </material-timepicker>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -138,8 +228,12 @@
                 <mat-label>Select an option</mat-label>
                 <mat-select
                   placeholder="Select a Payment Method"
-                  [formControl]="toControl(paymentMethodForms.at(orderIndex))"
-                  [value]="toControl(paymentMethodForms.at(orderIndex)).value"
+                  [formControl]="
+                    toControl(paymentMethodForms.at(orderParrentIndex))
+                  "
+                  [value]="
+                    toControl(paymentMethodForms.at(orderParrentIndex)).value
+                  "
                   required
                 >
                   <mat-option
@@ -381,21 +475,44 @@
               </span>
             </div>
           </div>
-          <!-- <div
-            class="action-btn"
+          <div
+            *ngIf="currentTabIndex == 2"
+            class="action-btn mx-4"
             fxLayout="row"
             fxLayoutAlign="space-around stretch"
           >
             <div fxFlex="70"></div>
             <button
+              [disabled]="order.isApproved"
               type="button"
-              class="btn btn-danger"
-              (click)="onBtnOrderClick(order)"
+              class="btn btn-warning"
               fxFlex="30"
+              (click)="onCancleOrderBtnClick(order)"
             >
-              Order
+              Cancle
             </button>
-          </div> -->
+          </div>
+          <div
+            *ngIf="
+              currentTabIndex == 3 ||
+              currentTabIndex == 4 ||
+              currentTabIndex == 5
+            "
+            class="action-btn mx-4"
+            fxLayout="row"
+            fxLayoutAlign="space-around stretch"
+          >
+            <div fxFlex="70"></div>
+            <button
+              [disabled]="order.isApproved"
+              type="button"
+              class="btn btn-success"
+              fxFlex="30"
+              (click)="onBuyAgainBtnClick(order)"
+            >
+              Buy again
+            </button>
+          </div>
         </div>
       </div>
     </mat-tab>

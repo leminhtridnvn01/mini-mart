@@ -7,6 +7,8 @@ import { AddProductToCart } from 'src/app/product-category/models/add-product-to
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { CommonCommunicationService } from 'src/app/common/services';
 import { GridAction } from 'src/app/common/enums/grid-action';
+import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
+import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +22,8 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private productService: ProductCategoryService,
-    private communicator: CommonCommunicationService
+    private communicator: CommonCommunicationService,
+    private snackBarService: SnackBarService
   ) {}
   ngOnInit(): void {
     this.initProductInCart();
@@ -72,8 +75,6 @@ export class CartComponent implements OnInit {
     var input = document.getElementById(
       'quantitiesInput' + ' ' + index
     ) as HTMLInputElement;
-    this.products[index].quantity = this.products[index]?.quantity + 1;
-    input.value = (this.products[index]?.quantity).toString();
 
     var request: AddProductToCart = {
       quantity: 1,
@@ -86,10 +87,18 @@ export class CartComponent implements OnInit {
       (item) => {
         if (item) {
           //do something as Pop-up, alert...
+          this.products[index].quantity = this.products[index]?.quantity + 1;
+          input.value = (this.products[index]?.quantity).toString();
+          this.refreshSelectedProductInfo();
         }
       },
       (error) => {
         //do something as Pop-up, alert...
+        this.snackBarService.openSnackBar(
+          error?.error?.message,
+          SNACK_BAR_TYPE.Error
+        );
+        this.refreshSelectedProductInfo();
       }
     );
     this.refreshSelectedProductInfo();
