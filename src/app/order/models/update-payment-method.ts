@@ -1,4 +1,4 @@
 export interface UpdatePaymentMethodRequest {
-  orderId: number;
+  orderParrentId: number;
   lK_PaymentMethod: number;
 }

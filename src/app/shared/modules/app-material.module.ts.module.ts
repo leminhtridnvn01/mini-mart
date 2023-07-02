@@ -37,7 +37,6 @@ import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { MaterialTimePickerModule } from '@candidosales/material-time-picker';
-
 @NgModule({
   declarations: [],
   imports: [

@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductCategoryService } from '../../services';
 import { LK_ProductUnit } from 'src/app/product-category/enums/product-unit';
-import { ProductLocation } from '../../models/product-location';
+import { ProductLocation, ProductStore } from '../../models/product-location';
+import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
+import { AddProductToCart } from '../../models/add-product-to-cart';
+import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -18,9 +21,12 @@ export class ProductDetailComponent implements OnInit {
   toggle: any[] = [];
   isLoading: boolean = false;
 
+  currentStore: ProductStore;
+  remainingQuantity = 0;
   constructor(
     private route: ActivatedRoute,
-    private service: ProductCategoryService
+    private service: ProductCategoryService,
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +57,12 @@ export class ProductDetailComponent implements OnInit {
       .subscribe((items) => {
         if (items) {
           this.productLocations = items;
+          items.forEach((element) => {
+            this.remainingQuantity += element.stores
+              .map((a) => a.quantity ?? 0)
+              .reduce((a, b) => a + b, 0);
+          });
+
           console.log(this.productLocations);
         }
       });
@@ -69,6 +81,37 @@ export class ProductDetailComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
+      }
+    );
+  }
+
+  onAddToCartBtnClick(): void {
+    if (this.currentStore == null) {
+      this.snackBarService.openSnackBar(
+        'Please choose a store to add to cart."',
+        SNACK_BAR_TYPE.Error
+      );
+      return;
+    }
+    var request: AddProductToCart = {
+      productId: this.productId,
+      storeId: this.currentStore.storeId,
+      quantity: this.quantity,
+    };
+    this.service.addProductInCart(request).subscribe(
+      (item) => {
+        if (item) {
+          this.snackBarService.openSnackBar(
+            'Product is added to cart',
+            SNACK_BAR_TYPE.Success
+          );
+        }
+      },
+      (error) => {
+        this.snackBarService.openSnackBar(
+          error?.error?.message,
+          SNACK_BAR_TYPE.Error
+        );
       }
     );
   }
@@ -93,8 +136,13 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onAddQuantityBtnClick() {
-    var input = document.getElementById('quantitiesInput') as HTMLInputElement;
-    input.value = (this.quantity++).toString();
+    if (this.quantity >= this.remainingQuantity) {
+    } else {
+      var input = document.getElementById(
+        'quantitiesInput'
+      ) as HTMLInputElement;
+      input.value = (this.quantity++).toString();
+    }
   }
   onMinusQuantityBtnClick() {
     var input = document.getElementById('quantitiesInput') as HTMLInputElement;
@@ -102,5 +150,15 @@ export class ProductDetailComponent implements OnInit {
       return;
     }
     input.value = (this.quantity--).toString();
+  }
+
+  onChangeStore(store: ProductStore): void {
+    if (store) {
+      this.currentStore = store;
+      this.remainingQuantity = store.quantity;
+      if (this.quantity >= this.remainingQuantity) {
+        this.quantity = this.remainingQuantity;
+      }
+    }
   }
 }

@@ -9,7 +9,7 @@ export interface ProductStore {
   cityName?: string;
   storeId?: number;
   storeName?: string;
-  adddress?: string;
+  address?: string;
   productId?: number;
   productName?: string;
   price?: number;

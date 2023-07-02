@@ -41,6 +41,11 @@ export class OrderManagementService {
     });
   }
 
+  approveOrder(orderId: number): Observable<boolean> {
+    const url = `${this.baseUrl}/Order/approve-order/${orderId}`;
+    return this.http.get<boolean>(url);
+  }
+
   private getParams(request?: IPagingRequest): HttpParams {
     let params = new HttpParams();
     if (request?.pageNo) {

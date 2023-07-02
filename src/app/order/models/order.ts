@@ -15,4 +15,14 @@ export interface Order {
   pickupTimeFrom: Date;
   pickupTimeTo: Date;
   products: ProductInCart[];
+  pickupTime?: Date;
+  isApproved?: boolean;
+}
+
+export interface OrderParrent {
+  totalPrice: number;
+  orderParrentId: number;
+  lk_orderStatus?: number;
+  paymentMethod?: number;
+  orders: Order[];
 }

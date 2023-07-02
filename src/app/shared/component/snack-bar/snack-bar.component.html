@@ -3,11 +3,14 @@
   fxLayout="row"
   fxLayoutAlign="space-between center"
 >
-  <div fxLayout="row">
-    <mat-icon *ngIf="getIcon" class="material-icons-message-type">{{
-      getIcon()
-    }}</mat-icon>
-    <span class="material-message">{{ data?.message }}</span>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-icon
+      *ngIf="getIcon"
+      class="material-icons-message-type mx-1 h-100"
+      fxFlex="7"
+      >{{ getIcon() }}</mat-icon
+    >
+    <span class="material-message px-1" fxFlex="93">{{ data?.message }}</span>
   </div>
 
   <div
