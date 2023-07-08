@@ -1,4 +1,5 @@
 import {
+  AddStrategyRequest,
   GetStrategyRequest,
   GetStrategyResponse,
 } from './../../models/strategy.model';
@@ -28,6 +29,11 @@ export class PromotionManagementService {
     return this.http.get<DataSourceResult<GetStrategyResponse>>(url, {
       params,
     });
+  }
+
+  addStrategy(request: AddStrategyRequest): Observable<boolean> {
+    const url = `${this.baseUrl}/Strategy/add-strategy`;
+    return this.http.post<boolean>(url, request);
   }
 
   private getParams(request?: IPagingRequest): HttpParams {

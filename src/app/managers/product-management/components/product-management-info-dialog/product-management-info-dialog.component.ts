@@ -31,7 +31,10 @@ export class ProductManagementInfoDialogComponent implements OnInit {
   nameForm: FormControl;
   priceForm: FormControl;
   priceDecreasesForm: FormControl;
+  currentPriceDecreasesForm: FormControl;
   quantityForm: FormControl;
+
+  productImageAttachment: File;
 
   productId: number;
 
@@ -56,6 +59,9 @@ export class ProductManagementInfoDialogComponent implements OnInit {
     this.nameForm = new FormControl(this.data?.name ?? '');
     this.priceForm = new FormControl(this.data?.price ?? '');
     this.priceDecreasesForm = new FormControl(this.data?.priceDecreases ?? '');
+    this.currentPriceDecreasesForm = new FormControl(
+      this.data?.currentPriceDecreases ?? ''
+    );
     this.quantityForm = new FormControl(this.data?.quantity ?? '');
     this.productId = this.data?.productId;
   }
@@ -88,6 +94,12 @@ export class ProductManagementInfoDialogComponent implements OnInit {
     }
   }
 
+  onUploadImageChange(event: any) {
+    if (event) {
+      this.productImageAttachment = event.target.files[0];
+    }
+  }
+
   onBtnSaveClick() {
     if (this.data?.isEdit) {
       var requestEdit: EditProductToOrderRequest = {
@@ -98,8 +110,10 @@ export class ProductManagementInfoDialogComponent implements OnInit {
         lK_ProductUnit: this.productUnitForm.value ?? 0,
         price: this.priceForm.value,
         priceDecreases: this.priceDecreasesForm.value,
+        currentPriceDecreases: this.currentPriceDecreasesForm.value,
         storeId: this.data?.storeId,
         quantity: this.quantityForm.value,
+        img: this.productImageAttachment,
       };
       this.productManagementService.editProduct(requestEdit).subscribe(
         (item) => {
@@ -120,6 +134,7 @@ export class ProductManagementInfoDialogComponent implements OnInit {
         price: this.priceForm.value,
         priceDecreases: this.priceDecreasesForm.value,
         storeIds: this.storeIds,
+        img: this.productImageAttachment,
       };
       this.productManagementService.createProduct(requestCreate).subscribe(
         (item) => {

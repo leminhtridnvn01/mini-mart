@@ -22,6 +22,7 @@ import {
 import { ProductStore } from '../../models/product-location';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/_authentication/services';
 
 @Component({
   selector: 'app-product-queue-grid',
@@ -45,7 +46,8 @@ export class ProductQueueGridComponent implements OnInit {
     private service: ProductCategoryService,
     private communicator: CommonCommunicationService,
     private snackBarService: SnackBarService,
-    public router: Router
+    public router: Router,
+    public authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -195,6 +197,7 @@ export class ProductQueueGridComponent implements OnInit {
       prodcut.currentStorePriceDecreases = store.priceDecreases
         ? store.priceDecreases
         : prodcut.priceDecreases;
+      prodcut.currentQuantity = store.quantity ? store.quantity : null;
     }
   }
 

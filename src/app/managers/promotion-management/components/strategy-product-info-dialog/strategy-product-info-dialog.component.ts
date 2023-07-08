@@ -1,5 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { LK_OrderStatus } from 'src/app/order/enums/order-status';
 import { LK_OrderType } from 'src/app/order/enums/order-type';
 import { LK_PaymentMethod } from 'src/app/order/enums/payment-type';
@@ -7,6 +11,9 @@ import { LK_ProductUnit } from 'src/app/product-category/enums/product-unit';
 import { GetStrategyProductResponse } from '../../models';
 import { DataSourceResult } from 'src/app/shared/models';
 import { PageEvent } from '@angular/material/paginator';
+import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
+import { AddStrategyDialogComponent } from '../add-strategy-dialog/add-strategy-dialog.component';
+import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
 
 @Component({
   selector: 'app-strategy-product-info-dialog',

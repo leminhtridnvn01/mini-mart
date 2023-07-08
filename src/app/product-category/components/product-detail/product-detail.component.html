@@ -4,7 +4,11 @@
   <div *ngIf="!isLoading" class="product-detail-content">
     <div class="product-detail-basic-info-content" fxLayout="row">
       <div class="product-detail-img px-4 py-4" fxFlex="40" fxLayout="column">
-        <img [src]="product.img" alt="" fxFlex="100" />
+        <img
+          [src]="product.img ?? '../../.././../assets/images/default-img.jpg'"
+          alt=""
+          fxFlex="100"
+        />
       </div>
       <div class="product-detail-info px-4 py-5" fxFlex="60">
         <div class="product-detail-info-title">
@@ -92,6 +96,12 @@
             fxLayoutAlign="start center"
           >
             <a
+              *ngIf="
+                !(
+                  (authService.isManager$ | async) == true ||
+                  (authService.isStaff$ | async) == true
+                )
+              "
               class="btn btn-primary mx-3"
               fxFlex="40"
               fxLayoutAlign="center center"

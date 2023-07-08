@@ -16,6 +16,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
 import { ProductManagementInfoDialogComponent } from '../../components/product-management-info-dialog/product-management-info-dialog.component';
 import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
+import { AuthenticationService } from 'src/app/_authentication/services';
+import { ProductPromotionInfoDialogComponent } from '../../components';
 
 @Component({
   selector: 'app-product-management',
@@ -32,6 +34,7 @@ export class ProductManagementComponent implements OnInit {
     'originalPriceDecreases',
     // 'currentPrice',
     'currentPriceDecreases',
+    'promotion',
     'action',
   ];
 
@@ -48,7 +51,8 @@ export class ProductManagementComponent implements OnInit {
   constructor(
     private productManagementService: ProductManagementService,
     private dialog: MatDialog,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    public authService: AuthenticationService
   ) {
     this.locationForm = new FormControl('', Validators.required);
     this.searchForm = new FormControl('');
@@ -180,6 +184,7 @@ export class ProductManagementComponent implements OnInit {
           productUnit: product.lK_ProductUnit,
           price: product.originalPrice,
           priceDecreases: product.originalPriceDecreases,
+          currentPriceDecreases: product.currentPriceDecreases,
           storeId: this.locationForm.value,
           quantity: product.quantity,
         },
@@ -232,6 +237,43 @@ export class ProductManagementComponent implements OnInit {
     } else {
       this.locationForm.markAllAsTouched();
     }
+  }
+
+  onEditPromotion(product: GetProductManagerResponse) {
+    this.dialog
+      .open(ProductPromotionInfoDialogComponent, {
+        data: {
+          strategyId: product.strategyName,
+          productId: product.productId,
+          storeId: this.storeId,
+        },
+        disableClose: false,
+        width: '600px',
+      })
+      .afterClosed()
+      .subscribe((afterClosedData) => {
+        if (!afterClosedData) return;
+
+        if (afterClosedData.hasError) {
+          this.snackBarService.openSnackBar(
+            'Add to Strategy fail!, Try again.',
+            SNACK_BAR_TYPE.Error
+          );
+          return;
+        }
+
+        this.snackBarService.openSnackBar(
+          'Add to Strategy successfully',
+          SNACK_BAR_TYPE.Success
+        );
+
+        var request: GetProductManagerRequest = {
+          pageNo: 1,
+          pageSize: this.pageSize,
+          storeId: this.storeId,
+        };
+        this.refreshProducts(request);
+      });
   }
 
   addCommas(num: number): string {

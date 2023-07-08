@@ -64,6 +64,12 @@
         fxLayoutAlign="space-around center"
       >
         <div
+          *ngIf="
+            !(
+              (authService.isManager$ | async) == true ||
+              (authService.isStaff$ | async) == true
+            )
+          "
           class="option-item"
           fxFlex="20"
           fxLayout="column"
@@ -78,6 +84,12 @@
           </button>
         </div>
         <div
+          *ngIf="
+            !(
+              (authService.isManager$ | async) == true ||
+              (authService.isStaff$ | async) == true
+            )
+          "
           class="option-item"
           fxFlex="20"
           fxLayout="column"
@@ -92,6 +104,12 @@
           </button>
         </div>
         <div
+          *ngIf="
+            !(
+              (authService.isManager$ | async) == true ||
+              (authService.isStaff$ | async) == true
+            )
+          "
           class="option-item"
           fxFlex="20"
           fxLayout="column"
@@ -106,6 +124,12 @@
           </button>
         </div>
         <div
+          *ngIf="
+            !(
+              (authService.isManager$ | async) == true ||
+              (authService.isStaff$ | async) == true
+            )
+          "
           class="option-item"
           fxFlex="20"
           fxLayout="column"
@@ -117,6 +141,73 @@
             (click)="onBtnOrderClick()"
           >
             Order
+          </button>
+        </div>
+        <!-- Manager -->
+        <div
+          *ngIf="
+            (authService.isManager$ | async) == true ||
+            (authService.isStaff$ | async) == true
+          "
+          class="option-item"
+          fxFlex="20"
+          fxLayout="column"
+          fxLayoutAlign="space-around center"
+        >
+          <button
+            type="submit"
+            class="px-5 py-2 btn btn-secondary btn-lg"
+            routerLink="/product-management"
+          >
+            Product
+          </button>
+        </div>
+        <div
+          *ngIf="
+            (authService.isManager$ | async) == true ||
+            (authService.isStaff$ | async) == true
+          "
+          class="option-item"
+          fxFlex="20"
+          fxLayout="column"
+          fxLayoutAlign="space-around center"
+        >
+          <button
+            type="submit"
+            class="px-5 py-2 btn btn-secondary btn-lg"
+            routerLink="/order-management"
+          >
+            Order
+          </button>
+        </div>
+        <div
+          *ngIf="(authService.isManager$ | async) == true"
+          class="option-item"
+          fxFlex="20"
+          fxLayout="column"
+          fxLayoutAlign="space-around center"
+        >
+          <button
+            type="submit"
+            class="px-5 py-2 btn btn-secondary btn-lg"
+            routerLink="/revanue-management"
+          >
+            Revenue
+          </button>
+        </div>
+        <div
+          *ngIf="(authService.isManager$ | async) == true"
+          class="option-item"
+          fxFlex="20"
+          fxLayout="column"
+          fxLayoutAlign="space-around center"
+        >
+          <button
+            type="submit"
+            class="px-5 py-2 btn btn-secondary btn-lg"
+            routerLink="/promotion-management"
+          >
+            Promotion
           </button>
         </div>
       </div>

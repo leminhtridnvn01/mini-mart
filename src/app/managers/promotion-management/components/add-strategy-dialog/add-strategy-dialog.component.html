@@ -1,0 +1,103 @@
+<div mat-dialog-content>
+  <h3 mat-dialog-title class="col-12">Product</h3>
+  <div class="dialog-content my-4 mx-4">
+    <!-- Product Name -->
+    <div
+      class="product-name"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field class="example-full-width w-100" fxFlex="100">
+        <mat-label>Strategy Name</mat-label>
+        <input [formControl]="nameForm" matInput placeholder="Ex. Pizza" />
+      </mat-form-field>
+    </div>
+
+    <div
+      class="product-name"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field class="example-full-width w-100" fxFlex="100">
+        <mat-label>Strategy Description</mat-label>
+        <input
+          [formControl]="descriptionForm"
+          matInput
+          placeholder="Ex. Pizza"
+        />
+      </mat-form-field>
+    </div>
+
+    <div
+      class="product-name"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field class="example-full-width w-100" fxFlex="100">
+        <mat-label>Percent Decrease</mat-label>
+        <input
+          [formControl]="percentDecreasesForm"
+          matInput
+          placeholder="Ex. Pizza"
+        />
+      </mat-form-field>
+    </div>
+
+    <div
+      class="product-name"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field class="example-full-width">
+        <mat-label>Activated Date From</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          [formControl]="activatedDateFromForm"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker1">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div
+      class="product-name"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field class="example-full-width">
+        <mat-label>Activated Date To</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          [formControl]="activatedDateToForm"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker2">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="pb-3 pr-4" align="end">
+    <app-spinner-button
+      mat-raised-button
+      class="mx-2"
+      (buttonClick)="onBtnSaveClick()"
+    >
+      Save
+    </app-spinner-button>
+    <button
+      mat-stroked-button
+      class="btn btn-outline-secondary mx-2"
+      mat-dialog-close
+    >
+      Cancel
+    </button>
+  </div>
+</div>

@@ -91,14 +91,14 @@
     </ng-container>
 
     <ng-container matColumnDef="originalPrice">
-      <th mat-header-cell *matHeaderCellDef>Original Price</th>
+      <th mat-header-cell *matHeaderCellDef>Price</th>
       <td mat-cell *matCellDef="let element">
         {{ element.originalPrice ? formatMoney(element.originalPrice) : "-" }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="originalPriceDecreases">
-      <th mat-header-cell *matHeaderCellDef>Original Price Decreases</th>
+      <th mat-header-cell *matHeaderCellDef>Price Decreases</th>
       <td mat-cell *matCellDef="let element">
         {{
           element.originalPriceDecreases
@@ -116,13 +116,29 @@
     </ng-container> -->
 
     <ng-container matColumnDef="currentPriceDecreases">
-      <th mat-header-cell *matHeaderCellDef>Current PriceDecreases</th>
+      <th mat-header-cell *matHeaderCellDef>Price Decreases at Store</th>
       <td mat-cell *matCellDef="let element">
         {{
           element.currentPriceDecreases
             ? formatMoney(element.currentPriceDecreases)
             : "-"
         }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="promotion">
+      <th mat-header-cell *matHeaderCellDef>Promotion</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="edit-use-info px-2 py-2" fxLayout="row">
+          <span class="text-truncate mx-2">
+            {{ element.strategyName ?? "-" }}
+          </span>
+          <a style="cursor: pointer" (click)="onEditPromotion(element)">
+            <mat-icon class="btn-edit" style="color: rgb(94, 53, 177)">
+              edit
+            </mat-icon>
+          </a>
+        </div>
       </td>
     </ng-container>
 
@@ -164,6 +180,7 @@
   </table>
 
   <div
+    *ngIf="(authService.isManager$ | async) == true"
     class="btn-add-product my-2 my-2"
     fxLayout="row"
     fxLayoutAlign="end stretch"

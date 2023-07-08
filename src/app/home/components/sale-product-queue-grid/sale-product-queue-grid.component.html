@@ -30,7 +30,7 @@
           fxLayout="column"
         >
           <img
-            [src]="product.img"
+            [src]="product.img ?? '../../.././../assets/images/default-img.jpg'"
             class="card-img-top"
             alt="..."
             style="object-fit: contain"
@@ -64,6 +64,12 @@
             >
           </p>
           <a
+            *ngIf="
+              !(
+                (authService.isManager$ | async) == true ||
+                (authService.isStaff$ | async) == true
+              )
+            "
             class="btn btn-primary"
             fxFlex="25"
             fxLayout="row"

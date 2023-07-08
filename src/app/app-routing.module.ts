@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ActiveAllService } from './_authentication/services/active-all.service';
 import { ActiveManagerService } from './_authentication/services/active-manager-service';
-import { ActiveOrderService } from './_authentication/services';
+import {
+  ActiveOrderService,
+  ActiveStaffService,
+} from './_authentication/services';
 
 const routes: Routes = [
   {
@@ -48,7 +51,7 @@ const routes: Routes = [
       import(
         '../app/managers/product-management/product-management.module'
       ).then((m) => m.ProductManagementModule),
-    canActivate: [ActiveManagerService],
+    canActivate: [ActiveStaffService],
   },
   {
     path: 'revenue-management',
@@ -64,7 +67,7 @@ const routes: Routes = [
       import('../app/managers/order-management/order-management.module').then(
         (m) => m.OrderManagementModule
       ),
-    canActivate: [ActiveManagerService],
+    canActivate: [ActiveStaffService],
   },
   {
     path: 'promotion-management',

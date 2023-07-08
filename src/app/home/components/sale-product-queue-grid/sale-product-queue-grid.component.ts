@@ -20,6 +20,7 @@ import { CommonCommunicationService } from 'src/app/common/services';
 import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
 import { filter } from 'rxjs';
 import { GridAction } from 'src/app/common/enums/grid-action';
+import { AuthenticationService } from 'src/app/_authentication/services';
 
 @Component({
   selector: 'app-sale-product-queue-grid',
@@ -41,7 +42,8 @@ export class SaleProductQueueGridComponent {
   constructor(
     private homeService: HomeService,
     private communicator: CommonCommunicationService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    public authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {

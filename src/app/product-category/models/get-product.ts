@@ -14,6 +14,7 @@ export interface GetProductResponse {
   locations: ProductLocation[];
   isValid: boolean;
   currentStorePriceDecreases?: number;
+  currentQuantity?: number;
 }
 
 // export interface ProductStoreResponse {

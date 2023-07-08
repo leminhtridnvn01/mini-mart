@@ -30,7 +30,9 @@
             >
               <div class="product-img row" fxFlex="80">
                 <img
-                  [src]="item.img"
+                  [src]="
+                    item.img ?? '../../.././../assets/images/default-img.jpg'
+                  "
                   alt=""
                   class="rounded mx-auto py-1 d-block"
                   style="object-fit: contain"
