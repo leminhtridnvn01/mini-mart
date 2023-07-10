@@ -7,6 +7,7 @@ import { ProductLocation, ProductStore } from '../../models/product-location';
 import { SnackBarService } from 'src/app/shared/services/logic/snack-bar.service';
 import { AddProductToCart } from '../../models/add-product-to-cart';
 import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
+import { AuthenticationService } from 'src/app/_authentication/services';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -26,7 +27,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: ProductCategoryService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    public authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {

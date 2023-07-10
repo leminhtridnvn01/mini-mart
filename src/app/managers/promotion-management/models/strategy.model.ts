@@ -1,5 +1,6 @@
 import { IPagingRequest } from 'src/app/shared/models/paging-request.model';
 export interface GetStrategyResponse {
+  strategyId: number;
   name?: string;
   description?: string;
   percentageDecrease?: number;
@@ -33,7 +34,7 @@ export interface AddStrategyRequest {
   percentageDecreases?: number;
   activatedDateFrom?: Date;
   activatedDateTo?: Date;
-  products: AddProductStrategy[];
+  products?: AddProductStrategy[];
 }
 
 export interface AddProductStrategy {

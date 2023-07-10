@@ -2,12 +2,13 @@ import { ActiveManagerService } from './../../_authentication/services/active-ma
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OrderManagementComponent } from './containers/order-management/order-management.component';
+import { ActiveStaffService } from 'src/app/_authentication/services';
 
 const routes: Routes = [
   {
     path: '',
     component: OrderManagementComponent,
-    canActivate: [ActiveManagerService],
+    canActivate: [ActiveStaffService],
   },
 ];
 

@@ -16,7 +16,11 @@ export class AuthenticationService {
   currentUser$ = this.currentUser.asObservable();
 
   private isClient = new BehaviorSubject<boolean>(null as unknown as boolean);
+  private isStaff = new BehaviorSubject<boolean>(null as unknown as boolean);
+  private isManager = new BehaviorSubject<boolean>(null as unknown as boolean);
   isClient$ = this.isClient.asObservable();
+  isStaff$ = this.isStaff.asObservable();
+  isManager$ = this.isManager.asObservable();
 
   private isRedirectedToLogin = new BehaviorSubject<boolean>(
     false as unknown as boolean
@@ -64,8 +68,10 @@ export class AuthenticationService {
     if (roles) {
       if (this.isClientRole(roles)) {
         this.isClient.next(true);
+      } else if (this.isStaffRole(roles)) {
+        this.isStaff.next(true);
       } else {
-        this.isClient.next(false);
+        this.isManager.next(true);
       }
     }
   }
@@ -106,6 +112,20 @@ export class AuthenticationService {
 
   isClientRole(roles: string) {
     if (roles.includes('Client')) {
+      return true;
+    }
+    return false;
+  }
+
+  isStaffRole(roles: string) {
+    if (roles.includes('Staff')) {
+      return true;
+    }
+    return false;
+  }
+
+  isManagerRole(roles: string) {
+    if (roles.includes('Manager')) {
       return true;
     }
     return false;

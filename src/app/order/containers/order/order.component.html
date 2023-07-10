@@ -64,7 +64,14 @@
                 fxLayout="row"
                 fxLayoutAlign="space-between stretch"
               >
-                <img class="px-1 py-1" [src]="product.img" alt="" fxFlex="20" />
+                <img
+                  class="px-1 py-1"
+                  [src]="
+                    product.img ?? '../../.././../assets/images/default-img.jpg'
+                  "
+                  alt=""
+                  fxFlex="20"
+                />
 
                 <div class="product-description" fxFlex="50">
                   <p style="font-size: 20px">{{ product.name }}</p>

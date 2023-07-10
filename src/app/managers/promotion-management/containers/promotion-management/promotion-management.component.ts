@@ -10,7 +10,11 @@ import { PromotionManagementService } from '../../services';
 import { GetStrategyRequest, GetStrategyResponse } from '../../models';
 import { LK_ActivatedStrategyStatus } from 'src/app/managers/revenue-management/enums';
 import { PageEvent } from '@angular/material/paginator';
-import { StrategyProductInfoDialogComponent } from '../../components';
+import {
+  AddStrategyDialogComponent,
+  StrategyProductInfoDialogComponent,
+} from '../../components';
+import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
 
 @Component({
   selector: 'app-promotion-management',
@@ -19,6 +23,7 @@ import { StrategyProductInfoDialogComponent } from '../../components';
 })
 export class PromotionManagementComponent implements OnInit {
   displayedColumns: string[] = [
+    'id',
     'name',
     'description',
     'percentageDecrease',
@@ -107,7 +112,39 @@ export class PromotionManagementComponent implements OnInit {
       .afterClosed();
   }
 
-  onBtnAddNewClick() {}
+  onBtnAddNewClick() {
+    this.dialog
+      .open(AddStrategyDialogComponent, {
+        data: {},
+        width: '800px',
+        disableClose: false,
+      })
+      .afterClosed()
+      .subscribe(
+        (afterClosedData) => {
+          if (!afterClosedData) return;
+
+          if (afterClosedData.hasError) {
+            this.snackBarService.openSnackBar(
+              'Create Strategy fail!, Try again.',
+              SNACK_BAR_TYPE.Error
+            );
+            return;
+          }
+
+          this.snackBarService.openSnackBar(
+            'New Strategy has been created',
+            SNACK_BAR_TYPE.Success
+          );
+        },
+        (error) => {
+          this.snackBarService.openSnackBar(
+            'Internal Server Error',
+            SNACK_BAR_TYPE.Error
+          );
+        }
+      );
+  }
 
   pageChange(event?: PageEvent): void {
     if (event) {

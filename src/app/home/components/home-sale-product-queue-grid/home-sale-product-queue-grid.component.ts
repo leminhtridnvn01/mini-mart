@@ -18,6 +18,7 @@ import { LK_ProductUnit } from 'src/app/product-category/enums/product-unit';
 import { SNACK_BAR_TYPE } from 'src/app/shared/constants/snack-bar-type.constant';
 import { AddProductToCart } from 'src/app/product-category/models/add-product-to-cart';
 import { PageEvent } from '@angular/material/paginator';
+import { AuthenticationService } from 'src/app/_authentication/services';
 
 @Component({
   selector: 'app-home-sale-product-queue-grid',
@@ -36,7 +37,8 @@ export class HomeSaleProductQueueGridComponent implements OnInit {
 
   constructor(
     private service: HomeService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    public authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {

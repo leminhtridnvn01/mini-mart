@@ -15,6 +15,10 @@ import {
   GetAllCategoriesRequest,
   GetCategoryResponse,
 } from 'src/app/product-category/models/GetAllCategories';
+import {
+  GetStrategyRequest,
+  GetStrategyResponse,
+} from 'src/app/managers/promotion-management/models';
 
 @Injectable()
 export class ProductManagementService {
@@ -58,12 +62,55 @@ export class ProductManagementService {
 
   createProduct(request: CreateProductToOrderRequest): Observable<boolean> {
     const url = `${this.baseUrl}/Product`;
-    return this.http.post<boolean>(url, request);
+    const formData = new FormData();
+    formData.append('name', request.name ?? '');
+    formData.append('description', request.description ?? '');
+    formData.append('price', request.price.toString() ?? '0');
+    formData.append('priceDecreases', request.priceDecreases.toString() ?? '0');
+    formData.append('lK_ProductUnit', request.lK_ProductUnit.toString() ?? '0');
+    formData.append('categoryId', request.categoryId.toString() ?? '0');
+    request.storeIds.forEach((item) => {
+      formData.append('storeIds', item.toString());
+    });
+    formData.append('img', request.img ?? new Blob());
+    return this.http.post<boolean>(url, formData);
   }
 
   editProduct(request: EditProductToOrderRequest): Observable<boolean> {
     const url = `${this.baseUrl}/Product`;
-    return this.http.put<boolean>(url, request);
+    const formData = new FormData();
+    formData.append('productId', request.productId.toString() ?? '');
+    formData.append('name', request.name ?? '');
+    formData.append('description', request.description ?? '');
+    formData.append('price', request.price.toString() ?? '0');
+    formData.append('priceDecreases', request.priceDecreases.toString() ?? '0');
+    formData.append(
+      'currentPriceDecreases',
+      request.currentPriceDecreases.toString() ?? '0'
+    );
+    formData.append('lK_ProductUnit', request.lK_ProductUnit.toString() ?? '0');
+    formData.append('categoryId', request.categoryId.toString() ?? '0');
+    formData.append('storeId', request.storeId.toString() ?? '0');
+    formData.append('quantity', request.quantity.toString() ?? '0');
+    formData.append('img', request.img ?? new Blob());
+    return this.http.put<boolean>(url, formData);
+  }
+
+  getManagerStrategy(
+    request: GetStrategyRequest
+  ): Observable<DataSourceResult<GetStrategyResponse>> {
+    const url = `${this.baseUrl}/Strategy/get-manager-strategy`;
+    let params = this.getParams(request);
+    params = params.set('startDate', request.startDate.toLocaleString());
+    params = params.set('endDate', request.endDate.toLocaleString());
+    return this.http.get<DataSourceResult<GetStrategyResponse>>(url, {
+      params,
+    });
+  }
+
+  addProductStoreToStrategy(request: any): Observable<boolean> {
+    const url = `${this.baseUrl}/Strategy/add-product-store-to-strategy`;
+    return this.http.post<boolean>(url, request);
   }
 
   private getParams(request?: IPagingRequest): HttpParams {

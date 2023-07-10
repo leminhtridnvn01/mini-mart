@@ -15,7 +15,7 @@
           fxLayout="column"
         >
           <img
-            [src]="product.img"
+            [src]="product.img ?? '../../.././../assets/images/default-img.jpg'"
             class="card-img-top"
             alt="..."
             style="object-fit: contain"
@@ -52,6 +52,15 @@
               >{{ formatMoney(product.price) }}</span
             >
           </p>
+          <p
+            *ngIf="product.currentQuantity"
+            class="card-text"
+            style="font-size: 12px"
+            fxFlex="20"
+          >
+            Quantity:
+            {{ product.currentQuantity }}
+          </p>
           <mat-form-field fxFlex="30">
             <mat-label>Select Store</mat-label>
             <mat-select
@@ -73,6 +82,7 @@
             </mat-select>
           </mat-form-field>
           <a
+            *ngIf="(authService.isClient$ | async) == true"
             class="btn btn-primary"
             fxFlex="25"
             fxLayout="row"

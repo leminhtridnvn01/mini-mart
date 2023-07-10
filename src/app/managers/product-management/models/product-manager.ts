@@ -12,6 +12,8 @@ export interface GetProductManagerResponse {
   categoryName: string;
   categoryId: number;
   lK_ProductUnit: number;
+  strategyId?: number;
+  strategyName?: string;
 }
 
 export interface GetProductManagerRequest extends IPagingRequest {
@@ -36,7 +38,7 @@ export interface GetStoreLocationResponse {
 export interface CreateProductToOrderRequest {
   name?: string;
   description?: string;
-  img?: string;
+  img?: File;
   price?: number;
   priceDecreases?: number;
   lK_ProductUnit?: number;
@@ -48,9 +50,10 @@ export interface EditProductToOrderRequest {
   productId: number;
   name?: string;
   description?: string;
-  img?: string;
+  img?: File;
   price?: number;
   priceDecreases?: number;
+  currentPriceDecreases?: number;
   lK_ProductUnit?: number;
   categoryId?: number;
   storeId: number;

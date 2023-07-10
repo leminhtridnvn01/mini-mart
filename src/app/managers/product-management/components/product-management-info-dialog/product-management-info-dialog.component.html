@@ -53,6 +53,21 @@
         <input [formControl]="priceDecreasesForm" matInput type="number" />
       </mat-form-field>
     </div>
+    <!-- Price Decreases at Store -->
+    <div
+      class="product-price-decreases"
+      fxLayout="row"
+      fxLayoutAlign="space-between stretch"
+    >
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <mat-label>Price Decreases at Store</mat-label>
+        <input
+          [formControl]="currentPriceDecreasesForm"
+          matInput
+          type="number"
+        />
+      </mat-form-field>
+    </div>
     <!-- Quantity  -->
     <div
       class="product-quantity"
@@ -138,6 +153,7 @@
           id="inputGroupFile03"
           aria-describedby="inputGroupFileAddon03"
           aria-label="Upload"
+          (change)="onUploadImageChange($event)"
         />
       </div>
     </div>

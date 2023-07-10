@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/_authentication/services';
 
 @Component({
   selector: 'app-home-slider',
@@ -7,7 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./home-slider.component.css'],
 })
 export class HomeSliderComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    public authService: AuthenticationService
+  ) {}
 
   onBtnSaleClick() {
     this.router.navigate(['/sale-products']);
