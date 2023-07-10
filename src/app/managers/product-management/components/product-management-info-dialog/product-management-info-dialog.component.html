@@ -55,6 +55,7 @@
     </div>
     <!-- Price Decreases at Store -->
     <div
+      *ngIf="data?.isEdit"
       class="product-price-decreases"
       fxLayout="row"
       fxLayoutAlign="space-between stretch"
