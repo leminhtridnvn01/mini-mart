@@ -141,7 +141,12 @@
         </button>
         <mat-divider></mat-divider>
         <button
-          *ngIf="(authService.isClient$ | async) == true"
+          *ngIf="
+            !(
+              (authService.isManager$ | async) == true ||
+              (authService.isStaff$ | async) == true
+            )
+          "
           mat-raised-button
           routerLink="/products"
           routerLinkActive="selected no-border "
@@ -155,7 +160,12 @@
           </span>
         </button>
         <mat-divider
-          *ngIf="(authService.isClient$ | async) == true"
+          *ngIf="
+            !(
+              (authService.isManager$ | async) == true ||
+              (authService.isStaff$ | async) == true
+            )
+          "
         ></mat-divider>
         <button
           *ngIf="(authService.isClient$ | async) == true"

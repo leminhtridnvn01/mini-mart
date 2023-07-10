@@ -82,12 +82,7 @@
             </mat-select>
           </mat-form-field>
           <a
-            *ngIf="
-              !(
-                (authService.isManager$ | async) == true ||
-                (authService.isStaff$ | async) == true
-              )
-            "
+            *ngIf="(authService.isClient$ | async) == true"
             class="btn btn-primary"
             fxFlex="25"
             fxLayout="row"

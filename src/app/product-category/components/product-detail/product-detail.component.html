@@ -96,12 +96,7 @@
             fxLayoutAlign="start center"
           >
             <a
-              *ngIf="
-                !(
-                  (authService.isManager$ | async) == true ||
-                  (authService.isStaff$ | async) == true
-                )
-              "
+              *ngIf="(authService.isClient$ | async) == true"
               class="btn btn-primary mx-3"
               fxFlex="40"
               fxLayoutAlign="center center"

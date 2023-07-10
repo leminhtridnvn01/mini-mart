@@ -36,7 +36,25 @@ export class LoginComponent {
     });
   }
 
-  onRegisterBtnClick() {}
+  onRegisterBtnClick() {
+    var userName = (
+      document.getElementById('formUserNameRegister') as HTMLInputElement
+    ).value;
+    var password = (
+      document.getElementById('formPasswordRegister') as HTMLInputElement
+    ).value;
+    var name = (document.getElementById('formNameRegister') as HTMLInputElement)
+      .value;
+    var phoneNumber = (
+      document.getElementById('formPhoneNumberRegister') as HTMLInputElement
+    ).value;
+    this.register(userName, password, name, phoneNumber).subscribe((item) => {
+      if (item) {
+        if (this.authService.login(item.token, item.username))
+          this.router.navigate(['']);
+      }
+    });
+  }
 
   register(
     userName: string,
