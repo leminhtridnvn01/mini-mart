@@ -1,3 +1,4 @@
 export const environment = {
-  webUrl: 'http://localhost:5000',
+  webUrl: 'https://dd-app-prod-capstoneproject-z1ri3d.mo1.mogenius.io',
+  // webUrl: 'http://localhost:5000',
 };
